@@ -1,9 +1,13 @@
 package com.pedrycz.tobebought.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,12 +23,20 @@ public class User {
     @NotBlank(message = "Username can't be blank")
     @NonNull
     @Column(nullable = false, unique = true)
-    private String userName;
+    private String username;
 
     @NotBlank(message = "Password can't be blank")
     @NonNull
     @Column(nullable = false)
     private String password;
+
+    @Email
+    @NotBlank(message = "Email can't be blank")
+    @NonNull
+    @Column(nullable = false, unique = true)
     private String email;
-//    private List<ShoppingList> shoppingLists;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ShoppingList> shoppingLists;
 }
