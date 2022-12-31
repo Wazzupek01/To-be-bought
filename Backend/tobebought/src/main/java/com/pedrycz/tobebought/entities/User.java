@@ -2,17 +2,20 @@ package com.pedrycz.tobebought.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pedrycz.tobebought.validation.Password;
+import com.pedrycz.tobebought.validation.Username;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -20,20 +23,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Username can't be blank")
-    @NonNull
-    @Column(nullable = false, unique = true)
+    @Username
     private String username;
 
-    @NotBlank(message = "Password can't be blank")
-    @NonNull
-    @Column(nullable = false)
+    @Password
     private String password;
 
-    @Email
     @NotBlank(message = "Email can't be blank")
-    @NonNull
-    @Column(nullable = false, unique = true)
+    @Email
     private String email;
 
     @JsonIgnore

@@ -8,7 +8,7 @@ public interface ItemService {
     Item getItem(Long id, Long shoppingListId);
     Item saveItem(Item item, Long userId, Long shoppingListId);
     List<Item> getItems(Long shoppingListId);
-    Item updateItem(Long id, Long shoppingListId, String name, Integer quantity, String unit);
+    Item updateItem(Long id, Long shoppingListId, String name, Float quantity, String unit);
 
     Item changeItemState(Long id, Long shoppingListId);
 

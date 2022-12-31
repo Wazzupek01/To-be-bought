@@ -6,7 +6,7 @@ import com.pedrycz.tobebought.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,11 +15,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     private UserRepository userRepository;
-
     @Override
     public User getUser(Long id) {
-        User user = userRepository.findById(id).get();
-        return user;
+        return unwrapUser(userRepository.findById(id), id);
     }
 
     @Override

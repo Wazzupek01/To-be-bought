@@ -3,9 +3,7 @@ package com.pedrycz.tobebought;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-//TODO: FULL VALIDATION
-//TODO: OWN EXCEPTIONS
-//TODO: EVERY EXCEPTION HANDLING
+//TODO: CHECK EVERY METHOD
 //TODO: JWT
 //TODO: UNIT TESTS
 //TODO: INTEGRATION TESTS

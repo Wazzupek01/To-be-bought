@@ -7,10 +7,10 @@ import com.pedrycz.tobebought.exceptions.ShoppingListNotOwnedException;
 import com.pedrycz.tobebought.repositories.ItemRepository;
 import com.pedrycz.tobebought.repositories.ShoppingListRepository;
 import com.pedrycz.tobebought.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +21,7 @@ public class ItemServiceImpl implements ItemService {
     private ItemRepository itemRepository;
     private UserRepository userRepository;
     private ShoppingListRepository shoppingListRepository;
+    //TODO: CHECK IF ITEM IS IN USERS SHOPPING LIST
     @Override
     public Item getItem(Long id, Long shoppingListId) {
         return unwrapItem(itemRepository.findByIdAndShoppingListId(id, shoppingListId), id);
@@ -34,28 +35,28 @@ public class ItemServiceImpl implements ItemService {
         item.setShoppingList(shoppingList);
         return itemRepository.save(item);
     }
-
+    //TODO: CHECK IF ITEM IS IN USERS SHOPPING LIST
     @Override
     public List<Item> getItems( Long shoppingListId) {
         return itemRepository.findByShoppingListId(shoppingListId);
     }
-
+    //TODO: CHECK IF ITEM IS IN USERS SHOPPING LIST
     @Override
-    public Item updateItem(Long id, Long shoppingListId, String name, Integer quantity, String unit) {
+    public Item updateItem(Long id, Long shoppingListId, String name, Float quantity, String unit) {
         Item item = unwrapItem(itemRepository.findByIdAndShoppingListId(id, shoppingListId), id);
         item.setName(name);
         item.setQuantity(quantity);
         item.setUnit(unit);
         return itemRepository.save(item);
     }
-
+    //TODO: CHECK IF ITEM IS IN USERS SHOPPING LIST
     @Override
     public Item changeItemState(Long id, Long shoppingListId) {
         Item item = unwrapItem(itemRepository.findByIdAndShoppingListId(id, shoppingListId), id);
         item.setChecked(!item.isChecked());
         return itemRepository.save(item);
     }
-
+    //TODO: CHECK IF ITEM IS IN USERS SHOPPING LIST
     @Override
     public void deleteItem(Long id, Long shoppingListId) {
         itemRepository.deleteByIdAndShoppingListId(id, shoppingListId);
