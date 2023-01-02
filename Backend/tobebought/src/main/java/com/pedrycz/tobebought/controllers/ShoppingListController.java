@@ -3,6 +3,7 @@ package com.pedrycz.tobebought.controllers;
 import com.pedrycz.tobebought.entities.Item;
 import com.pedrycz.tobebought.entities.ShoppingList;
 import com.pedrycz.tobebought.services.ShoppingListService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,12 +34,12 @@ public class ShoppingListController {
 
     // TODO: ADDS LISTS FOR NON EXISTING USERS
     @PostMapping("/user/{id}")
-    ResponseEntity<ShoppingList> addShoppingList(@RequestBody ShoppingList shoppingList, @PathVariable Long id) {
+    ResponseEntity<ShoppingList> addShoppingList(@Valid @RequestBody ShoppingList shoppingList, @PathVariable Long id) {
         return new ResponseEntity<>(shoppingListService.saveShoppingList(shoppingList, id), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/user/{userId}")
-    ResponseEntity<ShoppingList> updateShoppingList(@RequestBody ShoppingList shoppingList, @PathVariable Long id, @PathVariable Long userId) {
+    ResponseEntity<ShoppingList> updateShoppingList(@Valid @RequestBody ShoppingList shoppingList, @PathVariable Long id, @PathVariable Long userId) {
         return new ResponseEntity<>(shoppingListService.updateShoppingList(shoppingList.getName(), id, userId), HttpStatus.OK);
     }
 

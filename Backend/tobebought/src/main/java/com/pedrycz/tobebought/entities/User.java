@@ -2,7 +2,6 @@ package com.pedrycz.tobebought.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pedrycz.tobebought.validation.Password;
 import com.pedrycz.tobebought.validation.Username;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -26,7 +25,7 @@ public class User {
     @Username
     private String username;
 
-    @Password
+//    @Password
     private String password;
 
     @NotBlank(message = "Email can't be blank")

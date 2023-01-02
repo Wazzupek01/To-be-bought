@@ -3,25 +3,38 @@ package com.pedrycz.tobebought.services;
 import com.pedrycz.tobebought.entities.ShoppingList;
 import com.pedrycz.tobebought.entities.User;
 import com.pedrycz.tobebought.repositories.UserRepository;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class UserServiceImpl implements UserService{
-
+    @Autowired
     private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    public UserServiceImpl() {
+        this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    }
+
     @Override
     public User getUser(Long id) {
         return unwrapUser(userRepository.findById(id), id);
     }
 
     @Override
+    public User getUser(String username) {
+        return unwrapUser(userRepository.findByUsername(username), 404L);
+    }
+
+    @Override
     public User saveUser(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -29,7 +42,7 @@ public class UserServiceImpl implements UserService{
     public User updateUser(Long id, String username, String password, String email) {
         User user = unwrapUser(userRepository.findById(id), id);
         user.setUsername(username);
-        user.setPassword(password);
+        user.setPassword(bCryptPasswordEncoder.encode(password));
         user.setEmail(email);
         return userRepository.save(user);
     }

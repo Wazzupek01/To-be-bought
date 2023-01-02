@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserService {
     User getUser(Long id);
+    User getUser(String username);
     //TODO: RETURN VALUE IS NEVER USED
     User saveUser(User user);
     User updateUser(Long id, String username, String password, String email);
