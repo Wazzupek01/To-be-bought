@@ -32,7 +32,6 @@ public class ShoppingListController {
         return new ResponseEntity<>(shoppingListService.getListItems(id, userId), HttpStatus.OK);
     }
 
-    // TODO: ADDS LISTS FOR NON EXISTING USERS
     @PostMapping("/user/{id}")
     ResponseEntity<ShoppingList> addShoppingList(@Valid @RequestBody ShoppingList shoppingList, @PathVariable Long id) {
         return new ResponseEntity<>(shoppingListService.saveShoppingList(shoppingList, id), HttpStatus.CREATED);
@@ -43,7 +42,6 @@ public class ShoppingListController {
         return new ResponseEntity<>(shoppingListService.updateShoppingList(shoppingList.getName(), id, userId), HttpStatus.OK);
     }
 
-    // TODO: CANNOT DELETE ENTITY
     @DeleteMapping("/{id}/user/{userId}")
     ResponseEntity<HttpStatus> deleteShoppingList(@PathVariable Long id, @PathVariable Long userId){
         shoppingListService.deleteShoppingList(id, userId);
