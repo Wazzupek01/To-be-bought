@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,13 +19,18 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader("Authorization");
-        if(header == null || !header.startsWith(SecurityConstants.BEARER)){
+        Cookie[] cookies = request.getCookies();
+        String retrievedToken = null;
+        for(Cookie c: cookies){
+            if(c.getName().equals("jwt-token")) retrievedToken = c.getValue();
+        }
+
+        if(retrievedToken == null){
             filterChain.doFilter(request, response);
             return;
         }
-        String token = header.replace(SecurityConstants.BEARER, "");
-        String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY)).build().verify(token).getSubject();
+
+        String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY)).build().verify(retrievedToken).getSubject();
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Arrays.asList());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);

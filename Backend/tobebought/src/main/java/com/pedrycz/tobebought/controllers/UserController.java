@@ -1,8 +1,10 @@
 package com.pedrycz.tobebought.controllers;
 
 import com.pedrycz.tobebought.entities.ShoppingList;
-import com.pedrycz.tobebought.entities.User;
+import com.pedrycz.tobebought.model.user.UserDataDTO;
+import com.pedrycz.tobebought.model.user.UserRegisterDTO;
 import com.pedrycz.tobebought.services.UserService;
+import com.pedrycz.tobebought.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,30 +20,31 @@ public class UserController {
 
     UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id){
-        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+    @GetMapping("/")
+    public ResponseEntity<UserDataDTO> findById(@CookieValue(name="jwt-token") String token){
+        return new ResponseEntity<>(userService.getUser(UserServiceImpl.getUserIdFromJWT(token)), HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<HttpStatus> createUser(@Valid @RequestBody User user){
+    public ResponseEntity<HttpStatus> createUser(@Valid @RequestBody UserRegisterDTO user){
         userService.saveUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@Valid @RequestBody User user, @PathVariable Long id){
+    @PutMapping("/")
+    public ResponseEntity<UserDataDTO> updateUser(@Valid @RequestBody UserRegisterDTO user, @CookieValue(name="jwt-token") String token){
+        Long id = UserServiceImpl.getUserIdFromJWT(token);
         return new ResponseEntity<>(userService.updateUser(id, user.getUsername(), user.getPassword(), user.getEmail()), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
+    @DeleteMapping("/")
+    public ResponseEntity<HttpStatus> deleteUser(@CookieValue(name="jwt-token") String token){
+        userService.deleteUser(UserServiceImpl.getUserIdFromJWT(token));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{id}/lists")
-    public ResponseEntity<List<ShoppingList>> getUsersLists(@PathVariable Long id){
-        return new ResponseEntity<>(userService.getUsersLists(id), HttpStatus.OK);
+    @GetMapping("/lists")
+    public ResponseEntity<List<ShoppingList>> getUsersLists(@CookieValue(name="jwt-token") String token){
+        return new ResponseEntity<>(userService.getUsersLists(UserServiceImpl.getUserIdFromJWT(token)), HttpStatus.OK);
     }
 }

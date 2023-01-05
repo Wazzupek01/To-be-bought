@@ -5,6 +5,7 @@ import com.pedrycz.tobebought.entities.Item;
 import java.util.List;
 
 public interface ItemService {
+// TODO: RECEIVE DTO AND RETURN DTO
     Item getItem(Long id, Long shoppingListId);
     Item saveItem(Item item, Long userId, Long shoppingListId);
     List<Item> getItems(Long shoppingListId);

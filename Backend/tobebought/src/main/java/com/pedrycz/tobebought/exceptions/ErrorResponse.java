@@ -7,6 +7,7 @@ import java.util.List;
 
 public class ErrorResponse {
 
+    // TODO: CHECK IF GETTER AND SETTER NEEDED;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
     private List<String> message;

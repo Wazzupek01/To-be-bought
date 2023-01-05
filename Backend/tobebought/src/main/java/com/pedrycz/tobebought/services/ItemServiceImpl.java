@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+// TODO: RECEIVE DTO AND RETURN DTO
+
 @Service
 @AllArgsConstructor
 public class ItemServiceImpl implements ItemService {

@@ -1,7 +1,0 @@
-shoppingListController:
-	addShopping List ADDS LISTS FOR NON EXISTING USERS
-	delete cannot delete
-ErrorResponse:
-	check if getters and setters needed
-item service:
-	check if item is in users shopping list

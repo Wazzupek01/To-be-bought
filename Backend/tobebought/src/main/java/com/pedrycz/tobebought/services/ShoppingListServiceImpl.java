@@ -12,6 +12,8 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
+// TODO: RECEIVE DTO AND RETURN DTO
+
 @Service
 @AllArgsConstructor
 public class ShoppingListServiceImpl implements ShoppingListService{

@@ -3,8 +3,9 @@ package com.pedrycz.tobebought;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-//TODO: CHECK EVERY METHOD
-//TODO: JWT
+//TODO: DECODE COOKIE
+//TODO: COOKIE HTTPONLY SECURE
+//TODO: DELETE WHAT IS POSSIBLE FROM PATHS
 //TODO: UNIT TESTS
 //TODO: INTEGRATION TESTS
 @SpringBootApplication

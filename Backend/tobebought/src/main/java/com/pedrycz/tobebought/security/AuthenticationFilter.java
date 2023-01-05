@@ -7,6 +7,7 @@ import com.pedrycz.tobebought.entities.User;
 import com.pedrycz.tobebought.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -48,9 +49,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         String token = JWT.create()
                 .withSubject(authResult.getName())
-                .withClaim("userId", userService.getUser(authResult.getName()).getId())
+                .withClaim("userId", userService.loginUser(authResult.getName()).getId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
+        response.addCookie(new Cookie("jwt-token", token.toString()));
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);
     }
 

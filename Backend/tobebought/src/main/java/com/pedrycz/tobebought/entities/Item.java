@@ -12,6 +12,8 @@ import lombok.*;
 @Entity
 @Table(name = "items")
 
+// TODO: MAKE DTO
+
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +36,6 @@ public class Item {
     @ManyToOne(optional = false)
     @JoinColumn(name = "shopping_list_id", referencedColumnName = "id")
     private ShoppingList shoppingList;
+
+
 }

@@ -1,6 +1,6 @@
 package com.pedrycz.tobebought.security;
 
-import com.pedrycz.tobebought.entities.User;
+import com.pedrycz.tobebought.model.user.UserLoginDTO;
 import com.pedrycz.tobebought.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +24,8 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        User user = userService.getUser(authentication.getName());
+        UserLoginDTO user = userService.loginUser(authentication.getName());
+        System.out.println(authentication.getCredentials().toString());
         if(!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), user.getPassword())){
             throw new BadCredentialsException("Incorrect Password");
         }
