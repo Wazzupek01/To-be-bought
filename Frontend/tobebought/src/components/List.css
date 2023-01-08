@@ -1,0 +1,19 @@
+.list__container {
+    display: flex;
+    flex-direction: column;
+    background-color: #F8F4EA;
+    margin-top: 5%;
+    padding: 5%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.list__firstline {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.list__additem {
+    margin: 5% 0% 8% 0;
+}

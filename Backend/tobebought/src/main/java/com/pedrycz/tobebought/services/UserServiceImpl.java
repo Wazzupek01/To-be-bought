@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserLoginDTO loginUser(String username) {
-        User user = unwrapUser(userRepository.findByUsername(username), 404L);
+        User user = unwrapUser(userRepository.findByUsername(username));
         return loginDTOMapper.userToUserLoginDTO(user);
     }
 
@@ -41,13 +41,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDataDTO getUser(Long id) {
-        User user = unwrapUser(userRepository.findById(id), id);
+        User user = unwrapUser(userRepository.findById(id));
         return dataDTOMapper.userToUserDataDTO(user);
     }
 
     @Override
     public UserDataDTO getUser(String username) {
-        User user = unwrapUser(userRepository.findByUsername(username), 404L);
+        User user = unwrapUser(userRepository.findByUsername(username));
         return dataDTOMapper.userToUserDataDTO(user);
     }
 
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDataDTO updateUser(Long id, String username, String password, String email) {
-        User user = unwrapUser(userRepository.findById(id), id);
+        User user = unwrapUser(userRepository.findById(id));
         user.setUsername(username);
         user.setPassword(bCryptPasswordEncoder.encode(password));
         user.setEmail(email);
@@ -76,13 +76,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<ShoppingList> getUsersLists(Long id) {
-        User user = unwrapUser(userRepository.findById(id),id);
+        User user = unwrapUser(userRepository.findById(id));
         return user.getShoppingLists();
     }
 
-    static User unwrapUser(Optional<User> entity, Long id){
+    static User unwrapUser(Optional<User> entity){
         if(entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException("User of id = " + id + " doesn't exist");
+        else throw new EntityNotFoundException("User doesn't exist");
 
     }
 

@@ -1,0 +1,21 @@
+.register{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: 300px;
+    align-items: center;
+}
+
+.register__text {
+    font-size: 30px;
+    color: #579BB1;
+    margin-top: 2%;
+}
+
+.register__input {
+    margin-top: 3%;
+    width: 60%;
+    border: 1px solid #ECE8DD; 
+    border-radius: 5px;
+    padding: 5px;
+}

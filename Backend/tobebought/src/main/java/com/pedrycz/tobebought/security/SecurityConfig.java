@@ -19,8 +19,7 @@ public class SecurityConfig {
 
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager, userService);
         authenticationFilter.setFilterProcessesUrl("/authenticate");
-
-        http.csrf().disable()
+        http.cors().and().csrf().disable()//.disable()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                 .anyRequest().authenticated()

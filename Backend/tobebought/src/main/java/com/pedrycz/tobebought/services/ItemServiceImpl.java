@@ -31,7 +31,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item saveItem(Item item, Long userId, Long shoppingListId) {
-        User user = UserServiceImpl.unwrapUser(userRepository.findById(userId), userId);
+        User user = UserServiceImpl.unwrapUser(userRepository.findById(userId));
         ShoppingList shoppingList = ShoppingListServiceImpl.unwrapShoppingList(shoppingListRepository.findById(shoppingListId), shoppingListId);
         if(!user.getShoppingLists().contains(shoppingList)) throw new ShoppingListNotOwnedException(userId, shoppingListId);
         item.setShoppingList(shoppingList);

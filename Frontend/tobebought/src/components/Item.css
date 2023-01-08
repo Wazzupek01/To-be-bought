@@ -1,0 +1,8 @@
+.item__container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.item__container > input {
+    max-width: 20%;
+}

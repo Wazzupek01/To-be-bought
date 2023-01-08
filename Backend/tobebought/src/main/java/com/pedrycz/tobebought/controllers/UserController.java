@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/lists")
-    public ResponseEntity<List<ShoppingList>> getUsersLists(@CookieValue(name="jwt-token") String token){
+    public ResponseEntity<List<ShoppingList     >> getUsersLists(@CookieValue(name="jwt-token") String token){
         return new ResponseEntity<>(userService.getUsersLists(UserServiceImpl.getUserIdFromJWT(token)), HttpStatus.OK);
     }
 }

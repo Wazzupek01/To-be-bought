@@ -1,0 +1,24 @@
+.lists__container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #ECE8DD;
+}
+
+.lists__input {
+    margin-top: 3%;
+    width: 60%;
+    border: 1px solid #ECE8DD; 
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.lists {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2%;
+}

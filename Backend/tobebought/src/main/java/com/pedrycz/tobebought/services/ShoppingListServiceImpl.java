@@ -28,7 +28,7 @@ public class ShoppingListServiceImpl implements ShoppingListService{
 
     @Override
     public ShoppingList saveShoppingList(ShoppingList shoppingList, Long userId) {
-        User user = UserServiceImpl.unwrapUser(userRepository.findById(userId), userId);
+        User user = UserServiceImpl.unwrapUser(userRepository.findById(userId));
         shoppingList.setUser(user);
         return shoppingListRepository.save(shoppingList);
     }

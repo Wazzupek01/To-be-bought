@@ -20,7 +20,11 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Cookie[] cookies = request.getCookies();
+        if(cookies == null){
+            cookies = Arrays.asList(new Cookie("dupa", "dupa")).toArray(new Cookie[0]);
+        }
         String retrievedToken = null;
+
         for(Cookie c: cookies){
             if(c.getName().equals("jwt-token")) retrievedToken = c.getValue();
         }
