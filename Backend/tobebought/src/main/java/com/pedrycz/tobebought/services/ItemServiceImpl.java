@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-// TODO: RECEIVE DTO AND RETURN DTO
-
 @Service
 @AllArgsConstructor
 public class ItemServiceImpl implements ItemService {
@@ -23,7 +21,7 @@ public class ItemServiceImpl implements ItemService {
     private ItemRepository itemRepository;
     private UserRepository userRepository;
     private ShoppingListRepository shoppingListRepository;
-    //TODO: CHECK IF ITEM IS IN USERS SHOPPING LIST
+
     @Override
     public Item getItem(Long id, Long shoppingListId) {
         return unwrapItem(itemRepository.findByIdAndShoppingListId(id, shoppingListId), id);
@@ -32,17 +30,19 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item saveItem(Item item, Long userId, Long shoppingListId) {
         User user = UserServiceImpl.unwrapUser(userRepository.findById(userId));
-        ShoppingList shoppingList = ShoppingListServiceImpl.unwrapShoppingList(shoppingListRepository.findById(shoppingListId), shoppingListId);
-        if(!user.getShoppingLists().contains(shoppingList)) throw new ShoppingListNotOwnedException(userId, shoppingListId);
+        ShoppingList shoppingList = ShoppingListServiceImpl
+                .unwrapShoppingList(shoppingListRepository.findById(shoppingListId), shoppingListId);
+        if(!user.getShoppingLists().contains(shoppingList))
+            throw new ShoppingListNotOwnedException(userId, shoppingListId);
         item.setShoppingList(shoppingList);
         return itemRepository.save(item);
     }
-    //TODO: CHECK IF ITEM IS IN USERS SHOPPING LIST
+
     @Override
-    public List<Item> getItems( Long shoppingListId) {
+    public List<Item> getItems(Long shoppingListId) {
         return itemRepository.findByShoppingListId(shoppingListId);
     }
-    //TODO: CHECK IF ITEM IS IN USERS SHOPPING LIST
+
     @Override
     public Item updateItem(Long id, Long shoppingListId, String name, Float quantity, String unit) {
         Item item = unwrapItem(itemRepository.findByIdAndShoppingListId(id, shoppingListId), id);
@@ -51,14 +51,14 @@ public class ItemServiceImpl implements ItemService {
         item.setUnit(unit);
         return itemRepository.save(item);
     }
-    //TODO: CHECK IF ITEM IS IN USERS SHOPPING LIST
+
     @Override
     public Item changeItemState(Long id, Long shoppingListId) {
         Item item = unwrapItem(itemRepository.findByIdAndShoppingListId(id, shoppingListId), id);
         item.setChecked(!item.isChecked());
         return itemRepository.save(item);
     }
-    //TODO: CHECK IF ITEM IS IN USERS SHOPPING LIST
+
     @Override
     public void deleteItem(Long id, Long shoppingListId) {
         itemRepository.deleteByIdAndShoppingListId(id, shoppingListId);

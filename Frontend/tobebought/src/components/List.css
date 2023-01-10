@@ -3,17 +3,91 @@
     flex-direction: column;
     background-color: #F8F4EA;
     margin-top: 5%;
-    padding: 5%;
+    padding: 2%;
     width: 100%;
     border-radius: 10px;
+    padding-right: 7%;
+    transition: 0.2s;
 }
 
 .list__firstline {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    color: #579BB1;
+    font-size: 18px;
 }
 
 .list__additem {
     margin: 5% 0% 8% 0;
+}
+
+.list__buttoncontainer {
+    display: flex;
+}
+
+.list__button {
+    margin-right: 2%;
+}
+
+.delete {
+    margin-right: 20%;
+    font-size: 25px;
+    color: #ff8069;
+}
+
+.update {
+    margin-right: 20%;
+    font-size: 25px;
+    color: #add8e6;
+}
+
+.show {
+    margin-right: 20%;
+    font-size: 25px;
+    color: #E1D7C6;
+}
+
+.button__additem {
+    background-color: #579BB1;
+    color: #F8F4EA;
+    font-size: 40px;
+    font-weight: bold;
+    margin-left: 2%;
+    text-align: center;
+    border-radius: 5px;
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+.button__additem:hover {
+    transition: 0.1s;
+    background-color: #357990;
+}
+
+.button__additem:active {
+    color: #579BB1;
+    background-color: #F8F4EA;
+}
+
+.additem__input {
+    border: 1px solid #ECE8DD;
+    padding: 0.5%;
+    border-radius: 5px;
+    max-width: 20%;
+    margin-right: 2%;
+}
+
+.list__additem > button{
+    background-color: #579BB1;
+    color: #F8F4EA;
+    border-radius: 5px;
+    border: 1px solid #468AA0;
+    float: right;
+}
+
+.list__firstline input {
+    border: 1px solid #ECE8DD;
+    border-radius: 5px;
+    padding: 1%;
 }

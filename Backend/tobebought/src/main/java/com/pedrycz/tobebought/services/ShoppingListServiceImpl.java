@@ -3,39 +3,49 @@ package com.pedrycz.tobebought.services;
 import com.pedrycz.tobebought.entities.Item;
 import com.pedrycz.tobebought.entities.ShoppingList;
 import com.pedrycz.tobebought.entities.User;
+import com.pedrycz.tobebought.model.shoppingList.ShoppingListDTOMapper;
+import com.pedrycz.tobebought.model.shoppingList.ShoppingListDataDTO;
 import com.pedrycz.tobebought.repositories.ShoppingListRepository;
 import com.pedrycz.tobebought.repositories.UserRepository;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 // TODO: RECEIVE DTO AND RETURN DTO
 
 @Service
-@AllArgsConstructor
 public class ShoppingListServiceImpl implements ShoppingListService{
 
+    @Autowired
     private ShoppingListRepository shoppingListRepository;
+    @Autowired
     private UserRepository userRepository;
-
     @Override
-    public ShoppingList getShoppingList(Long id, Long userId) {
-        return unwrapShoppingList(shoppingListRepository.findShoppingListByIdAndUserId(id, userId), id);
+    public ShoppingListDataDTO getShoppingList(Long id, Long userId) {
+        ShoppingList shoppingList = unwrapShoppingList(shoppingListRepository.findShoppingListByIdAndUserId(id, userId), id);
+        return ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(shoppingList);
     }
 
     @Override
-    public ShoppingList saveShoppingList(ShoppingList shoppingList, Long userId) {
+    public ShoppingListDataDTO saveShoppingList(ShoppingList shoppingList, Long userId) {
         User user = UserServiceImpl.unwrapUser(userRepository.findById(userId));
         shoppingList.setUser(user);
-        return shoppingListRepository.save(shoppingList);
+        shoppingListRepository.save(shoppingList);
+        return ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(shoppingList);
     }
 
     @Override
-    public List<ShoppingList> getShoppingLists(Long userId) {
-        return shoppingListRepository.findShoppingListsByUserId(userId);
+    public List<ShoppingListDataDTO> getShoppingLists(Long userId) {
+        List<ShoppingList> list = shoppingListRepository.findShoppingListsByUserId(userId);
+        List<ShoppingListDataDTO> listDto = new ArrayList<ShoppingListDataDTO>();
+        for(ShoppingList s: list){
+            listDto.add(ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(s));
+        }
+        return listDto;
     }
 
     @Override
@@ -50,10 +60,10 @@ public class ShoppingListServiceImpl implements ShoppingListService{
     }
 
     @Override
-    public ShoppingList updateShoppingList(String name, Long id, Long userId) {
+    public ShoppingListDataDTO updateShoppingList(String name, Long id, Long userId) {
         ShoppingList shoppingList = unwrapShoppingList(shoppingListRepository.findShoppingListByIdAndUserId(id, userId), id);
         shoppingList.setName(name);
-        return shoppingListRepository.save(shoppingList);
+        return ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(shoppingListRepository.save(shoppingList));
     }
 
     static ShoppingList unwrapShoppingList(Optional<ShoppingList> entity, Long id){

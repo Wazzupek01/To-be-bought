@@ -1,10 +1,18 @@
 package com.pedrycz.tobebought.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ErrorResponse {
 
     // TODO: CHECK IF GETTER AND SETTER NEEDED;
@@ -16,21 +24,4 @@ public class ErrorResponse {
         this.timestamp = LocalDateTime.now();
         this.message = message;
     }
-
-    public LocalDateTime getTimestamp() {
-        return this.timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public List<String> getMessage() {
-        return this.message;
-    }
-
-    public void setMessage(List<String> message) {
-        this.message = message;
-    }
-
 }

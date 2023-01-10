@@ -58,6 +58,7 @@ class Lists extends Component {
             console.log(result);
         })
         .catch((error) => console.log("error", error));
+        this.setState({lists: [...this.state.lists, new this.list("", this.state.listName)]})
     }
 
 

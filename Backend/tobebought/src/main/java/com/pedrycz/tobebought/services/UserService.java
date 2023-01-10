@@ -1,6 +1,6 @@
 package com.pedrycz.tobebought.services;
 
-import com.pedrycz.tobebought.entities.ShoppingList;
+import com.pedrycz.tobebought.model.shoppingList.ShoppingListDataDTO;
 import com.pedrycz.tobebought.model.user.UserDataDTO;
 import com.pedrycz.tobebought.model.user.UserLoginDTO;
 import com.pedrycz.tobebought.model.user.UserRegisterDTO;
@@ -16,5 +16,5 @@ public interface UserService {
     UserDataDTO saveUser(UserRegisterDTO user);
     UserDataDTO updateUser(Long id, String username, String password, String email);
     void deleteUser(Long id);
-    List<ShoppingList> getUsersLists(Long id);
+    List<ShoppingListDataDTO> getUsersLists(Long id);
 }

@@ -1,6 +1,6 @@
 package com.pedrycz.tobebought.controllers;
 
-import com.pedrycz.tobebought.entities.ShoppingList;
+import com.pedrycz.tobebought.model.shoppingList.ShoppingListDataDTO;
 import com.pedrycz.tobebought.model.user.UserDataDTO;
 import com.pedrycz.tobebought.model.user.UserRegisterDTO;
 import com.pedrycz.tobebought.services.UserService;
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/lists")
-    public ResponseEntity<List<ShoppingList     >> getUsersLists(@CookieValue(name="jwt-token") String token){
+    public ResponseEntity<List<ShoppingListDataDTO>> getUsersLists(@CookieValue(name="jwt-token") String token){
         return new ResponseEntity<>(userService.getUsersLists(UserServiceImpl.getUserIdFromJWT(token)), HttpStatus.OK);
     }
 }

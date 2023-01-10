@@ -8,7 +8,7 @@ class LogIn extends Component {
   }
   state = {username: "", password: ""};
 
-  login = () => {
+  login = async () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Access-Control-Allow-Origin", "*");
@@ -35,7 +35,10 @@ class LogIn extends Component {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    this.props.onLogin();
+
+      const response = await fetch("http://localhost:8080/user/lists", requestOptions);
+      const result = await response.text().then();
+      this.props.onLogin();
   }
 
 
@@ -63,7 +66,7 @@ class LogIn extends Component {
             this.state.password = event.currentTarget.value;
           }}
         ></input>
-        <button onClick={this.login}>Log In</button>
+        <button className="login__button" onClick={this.login}>Log In</button>
       </div>
     );
   }

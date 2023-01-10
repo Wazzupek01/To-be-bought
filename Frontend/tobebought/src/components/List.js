@@ -5,8 +5,8 @@ class List extends Component {
     constructor(props) {
         super(props);
     }
-    state = {id: this.props.id, name: this.props.name, items: [], update: false, showItems: false,
-            newItemName: "name", newItemQuantity: 0, newItemUnit: "unit"}
+    state = {id: this.props.id, name: this.props.name, items: [], updateList: false, showItems: false,
+            newItemName: "name", newItemQuantity: 0, newItemUnit: "unit", addItem: false}
 
     item = class item {
         constructor(id, name, quantity, unit, checked){
@@ -39,6 +39,7 @@ class List extends Component {
 
 
         const response = await fetch("http://localhost:8080/shoppingList/" + this.state.id, requestOptions);
+        window.location.reload();
     }
 
     setItems = () => {
@@ -88,10 +89,10 @@ class List extends Component {
     }
 
     update = async () => {
-        if(this.state.update === false){
-            this.setState({update: true});
+        if(this.state.updateList === false){
+            this.setState({updateList: true});
         } else {
-            this.setState({update: false});
+            this.setState({updateList: false});
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             myHeaders.append("Access-Control-Allow-Origin", "*");
@@ -117,10 +118,10 @@ class List extends Component {
     }
 
     addItem = async () => {
-        if(this.state.update === false){
-            this.setState({update: true});
+        if(this.state.addItem === false){
+            this.setState({addItem: true});
         } else {
-            this.setState({update: false});
+            this.setState({addItem: false});
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             myHeaders.append("Access-Control-Allow-Origin", "*");
@@ -146,6 +147,7 @@ class List extends Component {
 
 
             const response = await fetch("http://localhost:8080/item/shoppingList/" + this.state.id, requestOptions);
+            this.setState({items: [...this.state.items, new this.item("", this.state.newItemName, this.state.newItemQuantity, this.state.newItemUnit)]});
         }
     }
 
@@ -154,24 +156,24 @@ class List extends Component {
         return ( <div className="list__container">
                 <div className="list__firstline">
                 {
-                    this.state.update ? 
+                    this.state.updateList ? 
                     <input type="text" onChange={(event) => {this.setState({name: event.currentTarget.value})}} value={this.state.name}></input>
                     : <div>{this.state.name}</div>
                 }
-
-                <div>id: {this.state.id}</div>
-                <div><button onClick={this.deleteList}>Delete</button></div>
-                <div><button onClick={this.update}>Update</button></div>
-                <div onClick = {this.setItems}>+</div>
+                <div className="list__buttoncontainer"><div className="delete" onClick={this.deleteList}>&#10006;</div>
+                <div className="update" onClick={this.update}>&#8634;</div>
+                <div onClick = {this.setItems} className="show">+</div></div>
             </div>
             {
             this.state.showItems ? <div className="list__items">
-                <div className="list__additem">
-                    <input type="text" onChange={(event) => {this.setState({newItemName: event.currentTarget.value})}} value = {this.state.newItemName}></input>
-                    <input type="number" onChange={(event) => {this.setState({newItemQuantity: event.currentTarget.value})}} value = {this.state.newItemQuantity}></input>
-                    <input type="text" onChange={(event) => {this.setState({newItemUnit: event.currentTarget.value})}} value = {this.state.newItemUnit}></input>
+            {
+                this.state.addItem ? <div className="list__additem">
+                    <input className="additem__input" type="text" onChange={(event) => {this.setState({newItemName: event.currentTarget.value})}} value = {this.state.newItemName}></input>
+                    <input className="additem__input" type="number" onChange={(event) => {this.setState({newItemQuantity: event.currentTarget.value})}} value = {this.state.newItemQuantity}></input>
+                    <input className="additem__input" type="text" onChange={(event) => {this.setState({newItemUnit: event.currentTarget.value})}} value = {this.state.newItemUnit}></input>
                     <button onClick={this.addItem}>Add Item</button>
-                </div>
+                </div> : <div className="button__additem" onClick={this.addItem}>+</div>
+            }
                 {this.state.items.map((value, index) => (<Item key={value.id} shoppingListId={this.state.id} id={value.id} name={value.name} quantity={value.quantity} unit={value.unit} checked={value.checked} />))}
             </div> : ""
             }

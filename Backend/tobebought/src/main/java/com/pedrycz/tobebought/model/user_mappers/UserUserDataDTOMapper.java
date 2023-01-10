@@ -7,5 +7,4 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface UserUserDataDTOMapper {
     UserDataDTO userToUserDataDTO(User user);
-    User userDataDTOToUser(UserDataDTO userDataDTO);
 }

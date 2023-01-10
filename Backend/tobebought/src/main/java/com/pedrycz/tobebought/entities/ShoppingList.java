@@ -7,7 +7,6 @@ import lombok.*;
 
 import java.util.List;
 
-// TODO: MAKE DTO
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -30,6 +29,4 @@ public class ShoppingList {
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-
 }

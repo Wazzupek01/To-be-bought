@@ -3,12 +3,49 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 5%;
-    min-height: 89.75321vh;
+    min-height: 100vh;
 }
 
 .login-register__container {
     display: flex;
     width: 100%;
     justify-content: center;
+}
+
+.topbar {
+    color: #579BB1;
+    font-size: 20px;
+    width: 100%;
+}
+
+.topbar__menu {
+    display: none;
+    position: absolute;
+    background: #579BB1;
+    color: #F8F4EA;
+    right: 0;
+    width: 10%;
+}
+
+.topbar__hamburger {
+    float: right;
+    padding: 1%;
+}
+
+.topbar__hamburger:hover {
+    background: #579BB1;
+    color: #F8F4EA;
+}
+
+.topbar__hamburger:hover .topbar__menu{
+    display: block;
+}
+
+.topbar__menu > div {
+    padding: 10% 10% 8% 20%;
+}
+
+.topbar__menu > div:hover {
+    color: #579BB1;
+    background: #ECE8DD;
 }

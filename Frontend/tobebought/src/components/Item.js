@@ -112,42 +112,53 @@ class Item extends Component {
       <div>
         {this.state.update ? (
           <div className="item__container">
-            <input
-              type="text"
-              onChange={(event) => {
-                this.setState({ name: event.currentTarget.value });
-              }}
-              value={this.state.name}
-            ></input>
-            <input
-              type="text"
-              onChange={(event) => {
-                this.setState({ quantity: event.currentTarget.value });
-              }}
-              value={this.state.quantity}
-            ></input>
-            <input
-              type="text"
-              onChange={(event) => {
-                this.setState({ unit: event.currentTarget.value });
-              }}
-              value={this.state.unit}
-            ></input>
-            <button onClick={this.update}>Update</button>
-            <button onClick={this.delete}>Delete</button>
+            <div className="item__inputs">
+              <input
+                type="text"
+                onChange={(event) => {
+                  this.setState({ name: event.currentTarget.value });
+                }}
+                value={this.state.name}
+              ></input>
+              <input
+                type="text"
+                onChange={(event) => {
+                  this.setState({ quantity: event.currentTarget.value });
+                }}
+                value={this.state.quantity}
+              ></input>
+              <input
+                type="text"
+                onChange={(event) => {
+                  this.setState({ unit: event.currentTarget.value });
+                }}
+                value={this.state.unit}
+              ></input>
+            </div>
+            <div className="item__buttons">
+              <input
+                type="checkbox"
+                defaultChecked={this.state.checked}
+                onChange={this.checkItem}
+              />
+              <div onClick={this.update} className="update">&#8634;</div>
+              <div onClick={this.delete} className="delete">&#10006;</div>
+              </div>
           </div>
         ) : (
           <div className="item__container">
             <div>{this.state.name}</div>
             <div>{this.state.quantity}</div>
             <div>{this.state.unit}</div>
-            <input
-              type="checkbox"
-              defaultChecked={this.state.checked}
-              onChange={this.checkItem}
-            />
-            <button onClick={this.update}>Update</button>
-            <button onClick={this.delete}>Delete</button>
+            <div className="item__buttons">
+              <input
+                type="checkbox"
+                defaultChecked={this.state.checked}
+                onChange={this.checkItem}
+              />
+              <div onClick={this.update} className="update">&#8634;</div>
+              <div onClick={this.delete} className="delete">&#10006;</div>
+              </div>
           </div>
         )}
       </div>

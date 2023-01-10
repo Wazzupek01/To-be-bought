@@ -2,6 +2,8 @@ package com.pedrycz.tobebought.services;
 
 import com.pedrycz.tobebought.entities.ShoppingList;
 import com.pedrycz.tobebought.entities.User;
+import com.pedrycz.tobebought.model.shoppingList.ShoppingListDTOMapper;
+import com.pedrycz.tobebought.model.shoppingList.ShoppingListDataDTO;
 import com.pedrycz.tobebought.model.user.UserDataDTO;
 import com.pedrycz.tobebought.model.user.UserLoginDTO;
 import com.pedrycz.tobebought.model.user.UserRegisterDTO;
@@ -10,11 +12,13 @@ import com.pedrycz.tobebought.model.user_mappers.UserUserLoginDTOMapper;
 import com.pedrycz.tobebought.model.user_mappers.UserUserRegisterDTOMapper;
 import com.pedrycz.tobebought.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +31,7 @@ public class UserServiceImpl implements UserService{
     private UserUserDataDTOMapper dataDTOMapper = Mappers.getMapper(UserUserDataDTOMapper.class);
     private UserUserRegisterDTOMapper registerDTOMapper = Mappers.getMapper(UserUserRegisterDTOMapper.class);
     private UserUserLoginDTOMapper loginDTOMapper = Mappers.getMapper(UserUserLoginDTOMapper.class);
+    private ShoppingListDTOMapper shoppingListMapper = Mappers.getMapper(ShoppingListDTOMapper.class);
 
     @Override
     public UserLoginDTO loginUser(String username) {
@@ -52,7 +57,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDataDTO saveUser(UserRegisterDTO user) {
+    public UserDataDTO saveUser(@Valid UserRegisterDTO user) {
         User userRegister = registerDTOMapper.userRegisterDTOToUser(user);
         userRegister.setPassword(bCryptPasswordEncoder.encode(userRegister.getPassword()));
         userRepository.save(userRegister);
@@ -75,9 +80,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<ShoppingList> getUsersLists(Long id) {
+    public List<ShoppingListDataDTO> getUsersLists(Long id) {
         User user = unwrapUser(userRepository.findById(id));
-        return user.getShoppingLists();
+        List<ShoppingList> list = user.getShoppingLists();
+        List<ShoppingListDataDTO> listDto = new ArrayList<ShoppingListDataDTO>();
+        for(ShoppingList s: list){
+            listDto.add(ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(s));
+        }
+        return listDto;
     }
 
     static User unwrapUser(Optional<User> entity){

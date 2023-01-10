@@ -14,11 +14,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAuthenticationManager implements AuthenticationManager {
 
-    @Autowired
-    private UserService userService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public CustomAuthenticationManager() {
+    @Autowired
+    public CustomAuthenticationManager(UserService userService) {
+        this.userService = userService;
         this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
 

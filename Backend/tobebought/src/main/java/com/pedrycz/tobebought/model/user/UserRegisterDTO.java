@@ -1,6 +1,7 @@
 package com.pedrycz.tobebought.model.user;
 
 import com.pedrycz.tobebought.validation.Password;
+import com.pedrycz.tobebought.validation.UniqueEmail;
 import com.pedrycz.tobebought.validation.Username;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -23,5 +24,6 @@ public class UserRegisterDTO {
 
     @NotBlank(message = "Email can't be blank")
     @Email
+    @UniqueEmail
     private String email;
 }

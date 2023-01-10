@@ -12,43 +12,45 @@ class MainPage extends Component {
   }
   state = { token: Cookies.get("jwt-token"), register: false, loggedIn: false };
 
-
-  renderPage = () => {
-    if(this.state.token === undefined){
-      return this.state.register ? <Register /> : <LogIn onLogin={this.setState({loggedIn: true})}/>;
-    } else {
-      
-      return <Lists />;
-    }
-  }
-
   handleOnLogin = () => {
-    const ref = this;
-    ref.setState({loggedIn: true});
+    this.setState({loggedIn: true, token: Cookies.get('jwt-token')});
   }
 
   logout = () => {
     Cookies.remove('jwt-token');
+    window.location.reload();
+  }
+
+  onRegister = () => {
+    this.setState({register: false});
   }
 
 
   render() {
     return (
       <div className="mainpage">
+        <div className="topbar">
+          <div className='topbar__hamburger'> &#9776;
+          <div className="topbar__menu">
+            <div onClick = {this.logout}>Log Out</div>
+          </div>
+          </div>
+        </div>
         <Logo />
         {
         this.state.token === undefined ? 
         <div className="login-register__container">{
-          this.state.register ? <Register /> : <LogIn onLogin={this.handleOnLogin}/>
+          this.state.register ? <Register onRegister={this.onRegister}/> : <LogIn onLogin={this.handleOnLogin}/>
           }</div> : <Lists />
         }
         {
         this.state.token === undefined ?
         <div onClick={() => (this.setState({register: !this.state.register}))}>
             {
-              !this.state.register ? "Don't have an account? Register" : "Already have an account? Log In"
+              !this.state.register ? <div>Don't have an account?<span style={{"color":"#579BB1", "font-weight":"bold"}}> Register</span></div>
+                : <div>Already have an account? <span style={{"color":"#579BB1", "font-weight":"bold"}}>Log In</span></div>
             }
-        </div> : <button onClick = {this.logout}>Log Out</button>
+        </div> : ""
         }
 
       </div>

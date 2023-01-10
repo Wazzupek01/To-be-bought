@@ -19,3 +19,25 @@
     border-radius: 5px;
     padding: 5px;
 }
+
+.login__button {
+    margin-top: 3%;
+    width: 62%;
+    height: 12%;
+    background-color: #579BB1;
+    border: 1px solid #468AA0;
+    color: #ECE8DD;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.login__button:hover {
+    background-color: #ECE8DD;
+    border: 1px solid #468AA0;
+    color: #579BB1;
+    transition: 0.2s;
+}
+
+.login__button:active {
+    background-color: #E1D7C6;
+}

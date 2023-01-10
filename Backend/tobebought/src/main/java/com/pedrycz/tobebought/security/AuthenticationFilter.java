@@ -53,7 +53,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .withClaim("userId", userService.loginUser(authResult.getName()).getId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
-        response.addCookie(new Cookie("jwt-token", token.toString()));
+        response.addCookie(new Cookie("jwt-token", token));
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);
     }
 

@@ -22,3 +22,23 @@
     align-items: center;
     padding: 2%;
 }
+
+.lists__button {
+    background-color: #579BB1;
+    border: 1px solid #468AA0;
+    color: #ECE8DD;
+    font-weight: bold;
+    border-radius: 5px;
+    height: 75%;
+}
+
+.lists__button:hover {
+    background-color: #ECE8DD;
+    border: 1px solid #468AA0;
+    color: #579BB1;
+    transition: 0.2s;
+}
+
+.lists__button:active {
+    background-color: #E1D7C6;
+}

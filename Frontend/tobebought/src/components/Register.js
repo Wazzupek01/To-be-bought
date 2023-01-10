@@ -36,6 +36,7 @@ class Register extends Component {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
+      this.props.onRegister();
   };
 
   render() {
@@ -71,7 +72,7 @@ class Register extends Component {
             this.state.password = event.currentTarget.value;
           }}
         ></input>
-        <button onClick={this.register}>Register</button>
+        <button className="login__button" onClick={this.register}>Register</button>
       </div>
     );
   }
