@@ -55,7 +55,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
         response.addCookie(new Cookie("jwt-token", token));
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);
-        response.getWriter().write(token);
+        response.getWriter().write(authResult.getName());
         response.getWriter().flush();
     }
 
