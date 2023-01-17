@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// TODO: RECEIVE DTO AND RETURN DTO
 
 @Service
 public class ShoppingListServiceImpl implements ShoppingListService{

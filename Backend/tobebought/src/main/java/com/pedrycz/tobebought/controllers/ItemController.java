@@ -1,6 +1,7 @@
 package com.pedrycz.tobebought.controllers;
 
 import com.pedrycz.tobebought.entities.Item;
+import com.pedrycz.tobebought.model.item.ItemDataDTO;
 import com.pedrycz.tobebought.services.ItemService;
 import com.pedrycz.tobebought.services.UserServiceImpl;
 import jakarta.validation.Valid;
@@ -28,18 +29,18 @@ public class ItemController {
 //    }
 
     @PostMapping("/shoppingList/{shoppingListId}")
-    public ResponseEntity<Item> addItem(@Valid @RequestBody Item item, @PathVariable Long shoppingListId, @CookieValue("jwt-token") String token){
+    public ResponseEntity<ItemDataDTO> addItem(@Valid @RequestBody Item item, @PathVariable Long shoppingListId, @CookieValue("jwt-token") String token){
         Long userId = UserServiceImpl.getUserIdFromJWT(token);
         return new ResponseEntity<>(itemService.saveItem(item, userId, shoppingListId), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/shoppingList/{shoppingListId}")
-    public ResponseEntity<Item> updateItem(@Valid @RequestBody Item item, @PathVariable Long id, @PathVariable Long shoppingListId){
+    public ResponseEntity<ItemDataDTO> updateItem(@Valid @RequestBody Item item, @PathVariable Long id, @PathVariable Long shoppingListId){
         return new ResponseEntity<>(itemService.updateItem(id, shoppingListId, item.getName(), item.getQuantity(), item.getUnit()), HttpStatus.OK);
     }
 
     @PutMapping("/check/{id}/shoppingList/{shoppingListId}")
-    public ResponseEntity<Item> changeItemState(@PathVariable Long id, @PathVariable Long shoppingListId){
+    public ResponseEntity<ItemDataDTO> changeItemState(@PathVariable Long id, @PathVariable Long shoppingListId){
         return new ResponseEntity<>(itemService.changeItemState(id, shoppingListId), HttpStatus.OK);
     }
 
