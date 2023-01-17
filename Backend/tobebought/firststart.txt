@@ -1,6 +1,0 @@
-cd ./Backend/tobebought; mvn clean spring-boot:run
-
-// TO CREATE DATABASE
-docker exec -it postgresql bash
-psql -U admin
-CREATE DATABASE tbb;
