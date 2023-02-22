@@ -42,3 +42,22 @@
 .lists__button:active {
     background-color: #E1D7C6;
 }
+
+.lists__button[disabled=disabled], .lists__button:disabled {
+    background-color: #DDD;
+    border-color: #BBB;
+    transition: 0.1s;
+    color: #ECE8DD;
+    cursor: not-allowed;
+}
+
+.invalid {
+    border-color: red;
+}
+
+.invalid__message {
+    border: none;
+    color: red;
+    text-align: left;
+    width: 60%;
+}

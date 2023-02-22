@@ -1,61 +1,91 @@
-import React, { Component } from "react";
-import LogIn from "./LogIn";
+import React, { useState, useEffect } from "react";
+import classes from "./MainPage.module.css";
 import Logo from "./Logo";
-import "./MainPage.css";
-import Register from "./Register";
-import Cookies from 'js-cookie';
-import Lists from "./Lists";
+import Register from "./user/Register";
+import LogIn from "./user/LogIn";
+import ListsContainer from "./lists/ListsContainer";
+import TopBar from "./navigation/TopBar";
 
-class MainPage extends Component {
-  constructor(props) {
-    super(props);
-  }
-  state = { token: Cookies.get("jwt-token"), register: false, loggedIn: false };
+// [ ] TODO: User panel for changing password and login
 
-  handleOnLogin = () => {
-    this.setState({loggedIn: true, token: Cookies.get('jwt-token')});
-  }
+const MainPage = () => {
+  const [showRegister, setShowRegister] = useState(false);
+  const [userName, setUserName] = useState(sessionStorage.getItem("userName"));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
 
-  logout = () => {
-    Cookies.remove('jwt-token');
-    window.location.reload();
-  }
+  useEffect(() => {
+    if (userName === null) setIsLoggedIn(false);
+    else setIsLoggedIn(true);
+    console.log(userName);
+  }, [userName]);
 
-  onRegister = () => {
-    this.setState({register: false});
-  }
+  const handleOnLogin = () => {
+    setShowRegister(true);
+    const value = sessionStorage.getItem("userName");
+    if (!(value === null)) {
+      setUserName(value);
+      setIsLoggedIn(true);
+    }
+  };
 
+  const onRegister = () => {
+    setShowRegister(false);
+  };
 
-  render() {
-    return (
-      <div className="mainpage">
-        <div className="topbar">
-          <div className='topbar__hamburger'> &#9776;
-          <div className="topbar__menu">
-            <div onClick = {this.logout}>Log Out</div>
-          </div>
-          </div>
-        </div>
-        <Logo />
-        {
-        this.state.token === undefined ? 
-        <div className="login-register__container">{
-          this.state.register ? <Register onRegister={this.onRegister}/> : <LogIn onLogin={this.handleOnLogin}/>
-          }</div> : <Lists />
-        }
-        {
-        this.state.token === undefined ?
-        <div onClick={() => (this.setState({register: !this.state.register}))}>
-            {
-              !this.state.register ? <div>Don't have an account?<span style={{"color":"#579BB1", "font-weight":"bold"}}> Register</span></div>
-                : <div>Already have an account? <span style={{"color":"#579BB1", "font-weight":"bold"}}>Log In</span></div>
-            }
-        </div> : ""
-        }
+  const handleOnLogout = () => {
+    setIsLoggedIn(false);
+  };
 
-      </div>
-    );
-  }
-}
+  const handleShowAccount = () => {
+    setShowAccount(!showAccount);
+  };
+
+  return (
+    <div className={classes.mainpage}>
+      <TopBar
+        userName={userName}
+        isLoggedIn={isLoggedIn}
+        onLogOut={handleOnLogout}
+        showAccount={handleShowAccount}
+      />
+      <Logo />
+      {!showAccount && (
+        <React.Fragment>
+          {userName === null ? (
+            <div className={classes["login-register__container"]}>
+              {showRegister ? (
+                <Register onRegister={onRegister} />
+              ) : (
+                <LogIn onLogin={handleOnLogin} />
+              )}
+            </div>
+          ) : (
+            <ListsContainer />
+          )}
+          {userName === null && (
+            <div onClick={() => setShowRegister(!showRegister)}>
+              {!showRegister ? (
+                <div>
+                  Don't have an account?&nbsp;
+                  <span style={{ color: "#579BB1", fontWeight: "bold" }}>
+                    Register
+                  </span>
+                </div>
+              ) : (
+                <div>
+                  Already have an account?&nbsp;
+                  <span style={{ color: "#579BB1", fontWeight: "bold" }}>
+                    Log In
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+        </React.Fragment>
+      )}
+    </div>
+  );
+};
 
 export default MainPage;

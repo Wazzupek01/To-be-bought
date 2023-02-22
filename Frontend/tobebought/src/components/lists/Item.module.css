@@ -23,3 +23,15 @@
     max-width: 15%;
     margin-right: 1%;
 }
+
+.delete {
+    margin-right: 20%;
+    font-size: 25px;
+    color: #ff8069;
+}
+
+.update {
+    margin-right: 20%;
+    font-size: 25px;
+    color: #add8e6;
+}

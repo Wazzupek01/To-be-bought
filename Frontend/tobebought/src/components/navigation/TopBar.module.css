@@ -1,21 +1,15 @@
-.mainpage {
-    background: #F8F4EA;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.login-register__container {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-}
-
-.topbar {
+.topbar__container {
     color: #579BB1;
     font-size: 20px;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.topbar__container > span {
+    margin-right: 1rem;
 }
 
 .topbar__menu {
@@ -23,19 +17,32 @@
     position: absolute;
     background: #579BB1;
     color: #F8F4EA;
+    top: 3.5rem;
     right: 0;
     width: 10%;
 }
 
 .topbar__hamburger {
-    float: right;
     padding: 1%;
+    text-align: center;
+    justify-content: center;
+    width: 3%;
 }
 
 .topbar__hamburger:hover {
     background: #579BB1;
     color: #F8F4EA;
+    transition-duration: 0.15s;
+
 }
+.topbar__hamburger:hover > span {
+    display: none;
+}
+
+.topbar__hamburger:hover:before {
+    content: "\292B";
+}
+
 
 .topbar__hamburger:hover .topbar__menu{
     display: block;
@@ -48,4 +55,5 @@
 .topbar__menu > div:hover {
     color: #579BB1;
     background: #ECE8DD;
+    transition-duration: 0.25s;
 }
