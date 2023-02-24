@@ -3,13 +3,21 @@ package com.pedrycz.tobebought.controllers;
 import com.pedrycz.tobebought.entities.Item;
 import com.pedrycz.tobebought.entities.ShoppingList;
 import com.pedrycz.tobebought.model.shoppingList.ShoppingListDataDTO;
-import com.pedrycz.tobebought.services.ShoppingListService;
+import com.pedrycz.tobebought.services.interfaces.ShoppingListService;
 import com.pedrycz.tobebought.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,9 +25,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/shoppingList")
 public class ShoppingListController {
-    ShoppingListService shoppingListService;
 
-    // TODO: DELETE IF NOT NECESSARY
+    private final ShoppingListService shoppingListService;
+
     @GetMapping("/{id}")
     ResponseEntity<ShoppingListDataDTO> getShoppingList(@PathVariable Long id, @CookieValue("jwt-token") String token) {
         Long userId = UserServiceImpl.getUserIdFromJWT(token);
@@ -39,15 +47,20 @@ public class ShoppingListController {
     }
 
     @PostMapping("/")
-    ResponseEntity<ShoppingListDataDTO> addShoppingList(@Valid @RequestBody ShoppingList shoppingList, @CookieValue("jwt-token") String token) {
+    ResponseEntity<ShoppingListDataDTO> addShoppingList(@Valid @RequestBody ShoppingList shoppingList,
+                                                        @CookieValue("jwt-token") String token) {
         Long id = UserServiceImpl.getUserIdFromJWT(token);
         return new ResponseEntity<>(shoppingListService.saveShoppingList(shoppingList, id), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<ShoppingListDataDTO> updateShoppingList(@Valid @RequestBody ShoppingList shoppingList, @PathVariable Long id, @CookieValue("jwt-token") String token) {
+    ResponseEntity<ShoppingListDataDTO> updateShoppingList(@Valid @RequestBody ShoppingList shoppingList,
+                                                           @PathVariable Long id,
+                                                           @CookieValue("jwt-token") String token) {
         Long userId = UserServiceImpl.getUserIdFromJWT(token);
-        return new ResponseEntity<>(shoppingListService.updateShoppingList(shoppingList.getName(), id, userId), HttpStatus.OK);
+        return new ResponseEntity<>(shoppingListService.updateShoppingList(shoppingList.getName(),
+                id,
+                userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

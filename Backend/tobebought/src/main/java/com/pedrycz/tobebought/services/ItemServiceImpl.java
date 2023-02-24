@@ -9,6 +9,7 @@ import com.pedrycz.tobebought.model.item.ItemItemDataDTOMapper;
 import com.pedrycz.tobebought.repositories.ItemRepository;
 import com.pedrycz.tobebought.repositories.ShoppingListRepository;
 import com.pedrycz.tobebought.repositories.UserRepository;
+import com.pedrycz.tobebought.services.interfaces.ItemService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -23,10 +24,10 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
-    private ItemRepository itemRepository;
-    private UserRepository userRepository;
-    private ShoppingListRepository shoppingListRepository;
-    private ItemItemDataDTOMapper mapper;
+    private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
+    private final ShoppingListRepository shoppingListRepository;
+    private final ItemItemDataDTOMapper mapper;
 
     @Autowired
     public ItemServiceImpl(ItemRepository itemRepository, UserRepository userRepository, ShoppingListRepository shoppingListRepository) {
@@ -84,8 +85,8 @@ public class ItemServiceImpl implements ItemService {
         itemRepository.deleteByIdAndShoppingListId(id, shoppingListId);
     }
 
-    static Item unwrapItem(Optional<Item> entity, Long id){
+    public static Item unwrapItem(Optional<Item> entity, Long id){
         if(entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException("Item of id = " + id + " doesn't exist");
+        throw new EntityNotFoundException("Item of id = " + id + " doesn't exist");
     }
 }

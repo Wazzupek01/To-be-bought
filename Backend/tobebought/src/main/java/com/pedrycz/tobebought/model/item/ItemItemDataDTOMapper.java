@@ -5,6 +5,6 @@ import org.mapstruct.Mapper;
 
 @Mapper
 public interface ItemItemDataDTOMapper {
-    ItemDataDTO itemToItemDataDTO(Item item);
 
+    ItemDataDTO itemToItemDataDTO(Item item);
 }

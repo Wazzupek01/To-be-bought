@@ -2,6 +2,8 @@ package com.pedrycz.tobebought.model.user_mappers;
 
 import com.pedrycz.tobebought.entities.User;
 import com.pedrycz.tobebought.model.user.UserLoginDTO;
+import com.pedrycz.tobebought.model.user.mappers.UserUserLoginDTOMapper;
+
 import javax.annotation.processing.Generated;
 
 @Generated(

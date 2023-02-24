@@ -1,4 +1,4 @@
-package com.pedrycz.tobebought.services;
+package com.pedrycz.tobebought.services.interfaces;
 
 import com.pedrycz.tobebought.model.shoppingList.ShoppingListDataDTO;
 import com.pedrycz.tobebought.model.user.UserDataDTO;
@@ -12,7 +12,6 @@ public interface UserService {
     UserLoginDTO loginUser(String username);
     UserDataDTO getUser(Long id);
     UserDataDTO getUser(String username);
-    //TODO: RETURN VALUE IS NEVER USED
     UserDataDTO saveUser(UserRegisterDTO user);
     UserDataDTO updateUser(Long id, String username, String password, String email);
     void deleteUser(Long id);

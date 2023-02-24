@@ -7,10 +7,11 @@ import com.pedrycz.tobebought.model.shoppingList.ShoppingListDataDTO;
 import com.pedrycz.tobebought.model.user.UserDataDTO;
 import com.pedrycz.tobebought.model.user.UserLoginDTO;
 import com.pedrycz.tobebought.model.user.UserRegisterDTO;
-import com.pedrycz.tobebought.model.user_mappers.UserUserDataDTOMapper;
-import com.pedrycz.tobebought.model.user_mappers.UserUserLoginDTOMapper;
-import com.pedrycz.tobebought.model.user_mappers.UserUserRegisterDTOMapper;
+import com.pedrycz.tobebought.model.user.mappers.UserUserDataDTOMapper;
+import com.pedrycz.tobebought.model.user.mappers.UserUserLoginDTOMapper;
+import com.pedrycz.tobebought.model.user.mappers.UserUserRegisterDTOMapper;
 import com.pedrycz.tobebought.repositories.UserRepository;
+import com.pedrycz.tobebought.services.interfaces.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.mapstruct.factory.Mappers;
@@ -24,24 +25,27 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserUserDataDTOMapper dataDTOMapper;
+    private final UserUserRegisterDTOMapper registerDTOMapper;
+    private final UserUserLoginDTOMapper loginDTOMapper;
+
     @Autowired
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private UserUserDataDTOMapper dataDTOMapper = Mappers.getMapper(UserUserDataDTOMapper.class);
-    private UserUserRegisterDTOMapper registerDTOMapper = Mappers.getMapper(UserUserRegisterDTOMapper.class);
-    private UserUserLoginDTOMapper loginDTOMapper = Mappers.getMapper(UserUserLoginDTOMapper.class);
-    private ShoppingListDTOMapper shoppingListMapper = Mappers.getMapper(ShoppingListDTOMapper.class);
+    public UserServiceImpl(UserRepository userRepository) {
+        this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        this.userRepository = userRepository;
+        this.dataDTOMapper = Mappers.getMapper(UserUserDataDTOMapper.class);
+        this.registerDTOMapper = Mappers.getMapper(UserUserRegisterDTOMapper.class);
+        this.loginDTOMapper = Mappers.getMapper(UserUserLoginDTOMapper.class);
+    }
 
     @Override
     public UserLoginDTO loginUser(String username) {
         User user = unwrapUser(userRepository.findByUsername(username));
         return loginDTOMapper.userToUserLoginDTO(user);
-    }
-
-    @Autowired
-    public UserServiceImpl() {
-        this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
@@ -83,16 +87,16 @@ public class UserServiceImpl implements UserService{
     public List<ShoppingListDataDTO> getUsersLists(Long id) {
         User user = unwrapUser(userRepository.findById(id));
         List<ShoppingList> list = user.getShoppingLists();
-        List<ShoppingListDataDTO> listDto = new ArrayList<ShoppingListDataDTO>();
+        List<ShoppingListDataDTO> listDto = new ArrayList<>();
         for(ShoppingList s: list){
             listDto.add(ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(s));
         }
         return listDto;
     }
 
-    static User unwrapUser(Optional<User> entity){
+    public static User unwrapUser(Optional<User> entity){
         if(entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException("User doesn't exist");
+        throw new EntityNotFoundException("User doesn't exist");
 
     }
 
@@ -100,7 +104,6 @@ public class UserServiceImpl implements UserService{
         Base64.Decoder decoder = Base64.getUrlDecoder();
         String userId = new String(decoder.decode(token.split("\\.")[1])).split(",")[2];
         userId = userId.substring(userId.indexOf(":")+1, userId.indexOf("}"));
-        Long uid = Long.parseLong(userId);
-        return uid;
+        return Long.parseLong(userId);
     }
 }

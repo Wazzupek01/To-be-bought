@@ -12,12 +12,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemDataDTO {
+
     private Long id;
+
     @NotBlank
     private String name;
+
     @DecimalMin(value="0.0", inclusive=false)
     private Float quantity;
+
     @NotBlank
     private String unit;
+
     private boolean checked = false;
 }

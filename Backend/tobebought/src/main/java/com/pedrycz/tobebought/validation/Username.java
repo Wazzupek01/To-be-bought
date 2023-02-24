@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UsernameValidator.class)
 public @interface Username {
-    String message() default "Invalid Password";
 
+    String message() default "Invalid Password";
     Class<?>[] groups() default{};
     Class<? extends Payload>[] payload() default {};
 }

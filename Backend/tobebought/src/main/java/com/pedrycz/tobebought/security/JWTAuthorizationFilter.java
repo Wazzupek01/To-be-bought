@@ -18,11 +18,16 @@ import java.util.Arrays;
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         Cookie[] cookies = request.getCookies();
+
         if(cookies == null){
-            cookies = Arrays.asList(new Cookie("dupa", "dupa")).toArray(new Cookie[0]);
+            filterChain.doFilter(request, response);
+            return;
         }
+
         String retrievedToken = null;
 
         for(Cookie c: cookies){

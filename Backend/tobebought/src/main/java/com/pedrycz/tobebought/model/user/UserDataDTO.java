@@ -15,8 +15,6 @@ import java.util.List;
 public class UserDataDTO {
 
     private String username;
-
     private String email;
-
     private List<ShoppingList> shoppingLists;
 }

@@ -7,8 +7,8 @@ import com.pedrycz.tobebought.model.shoppingList.ShoppingListDTOMapper;
 import com.pedrycz.tobebought.model.shoppingList.ShoppingListDataDTO;
 import com.pedrycz.tobebought.repositories.ShoppingListRepository;
 import com.pedrycz.tobebought.repositories.UserRepository;
+import com.pedrycz.tobebought.services.interfaces.ShoppingListService;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,12 +17,16 @@ import java.util.Optional;
 
 
 @Service
-public class ShoppingListServiceImpl implements ShoppingListService{
+public class ShoppingListServiceImpl implements ShoppingListService {
 
-    @Autowired
-    private ShoppingListRepository shoppingListRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final ShoppingListRepository shoppingListRepository;
+    private final UserRepository userRepository;
+
+    public ShoppingListServiceImpl(ShoppingListRepository shoppingListRepository, UserRepository userRepository) {
+        this.shoppingListRepository = shoppingListRepository;
+        this.userRepository = userRepository;
+    }
+
     @Override
     public ShoppingListDataDTO getShoppingList(Long id, Long userId) {
         ShoppingList shoppingList = unwrapShoppingList(shoppingListRepository.findShoppingListByIdAndUserId(id, userId), id);
@@ -65,8 +69,8 @@ public class ShoppingListServiceImpl implements ShoppingListService{
         return ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(shoppingListRepository.save(shoppingList));
     }
 
-    static ShoppingList unwrapShoppingList(Optional<ShoppingList> entity, Long id){
+    public static ShoppingList unwrapShoppingList(Optional<ShoppingList> entity, Long id){
         if(entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException("Shopping list of id = " + id + " doesn't exist");
+        throw new EntityNotFoundException("Shopping list of id = " + id + " doesn't exist");
     }
 }

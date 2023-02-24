@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    UserRepository userRepository;
+    public UniqueEmailValidator(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        if(userRepository.findByEmail(s) != null)
-            return false;
-        return true;
+        return userRepository.findByEmail(s) == null;
     }
 }

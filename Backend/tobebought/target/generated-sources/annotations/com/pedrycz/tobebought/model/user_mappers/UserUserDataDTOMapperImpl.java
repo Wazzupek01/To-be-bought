@@ -3,6 +3,8 @@ package com.pedrycz.tobebought.model.user_mappers;
 import com.pedrycz.tobebought.entities.ShoppingList;
 import com.pedrycz.tobebought.entities.User;
 import com.pedrycz.tobebought.model.user.UserDataDTO;
+import com.pedrycz.tobebought.model.user.mappers.UserUserDataDTOMapper;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;

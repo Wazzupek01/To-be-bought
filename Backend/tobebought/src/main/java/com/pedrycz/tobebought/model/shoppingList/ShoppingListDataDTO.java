@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ShoppingListDataDTO {
+
     private long Id;
     private String name;
     private List<Item> items;
