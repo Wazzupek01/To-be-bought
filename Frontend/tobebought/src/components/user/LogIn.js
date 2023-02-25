@@ -1,11 +1,78 @@
-import React, {useState} from 'react';
-import classes from './LogIn.module.css';
+import React, { useReducer, useState, useEffect } from "react";
+import classes from "./LogIn.module.css";
+import Input from "../UI/Input";
+import { regexPassword, regexUsername } from "../../helpers/constants";
 
-const LogIn  = (props) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [isUsernameValid, setIsUsernameValid] = useState(true);
-  const [isPasswordValid, setIsPasswordValid] = useState(true);
+const formReducer = (state, action) => {
+  if (action.type === "USERNAME_INPUT") {
+    return {
+      username: action.val,
+      isUsernameValid: regexUsername.test(action.val),
+      password: state.password,
+      isPasswordValid: state.isPasswordValid,
+    };
+  }
+
+  if (action.type === "USERNAME_BLUR") {
+    return {
+      username: state.username,
+      isUsernameValid: regexUsername.test(state.username),
+      password: state.password,
+      isPasswordValid: state.isPasswordValid,
+    };
+  }
+
+  if (action.type === "PASSWORD_INPUT") {
+    return {
+      username: state.username,
+      isUsernameValid: state.isUsernameValid,
+      password: action.val,
+      isPasswordValid: regexPassword.test(action.val),
+    };
+  }
+
+  if (action.type === "PASSWORD_BLUR") {
+    return {
+      username: state.username,
+      isUsernameValid: state.isUsernameValid,
+      password: state.password,
+      isPasswordValid: regexPassword.test(state.password),
+    };
+  }
+
+  return {
+    username: "",
+    isUsernameValid: null,
+    password: "",
+    isPasswordValid: null,
+  };
+};
+
+const LogIn = (props) => {
+  const [form, dispatchForm] = useReducer(formReducer, {
+    username: "",
+    isUsernameValid: null,
+    password: "",
+    isPasswordValid: null,
+  });
+
+  const [isFormValid, setIsFormValid] = useState(null);
+
+  const usernameChangeHandler = (event) => {
+    dispatchForm({ type: "USERNAME_INPUT", val: event.target.value });
+  };
+
+  const passwordChangeHandler = (event) => {
+    dispatchForm({ type: "PASSWORD_INPUT", val: event.target.value });
+  };
+
+  const validateUsernameHandler = () => {
+    dispatchForm({ type: "USERNAME_BLUR" });
+  };
+
+  const validatePasswordHandler = () => {
+    dispatchForm({ type: "PASSWORD_BLUR" });
+  };
 
   const login = async () => {
     var myHeaders = new Headers();
@@ -18,8 +85,8 @@ const LogIn  = (props) => {
     );
 
     var raw = JSON.stringify({
-      password: password,
-      username: username
+      password: form.password,
+      username: form.username,
     });
 
     var requestOptions = {
@@ -32,47 +99,50 @@ const LogIn  = (props) => {
 
     fetch("http://localhost:8080/authenticate", requestOptions)
       .then((response) => response.text())
-      .then((result) => {sessionStorage.setItem("userName", result); props.onLogin();})
+      .then((result) => {
+        sessionStorage.setItem("userName", result);
+        props.onLogin();
+      })
       .catch((error) => console.log("error", error));
-  }
+  };
 
-  const validateUsername = () => {
-    const regexUsername = new RegExp("[A-Za-z][A-Za-z0-9_]{4,29}");
-    setIsUsernameValid(regexUsername.test(username));
-  }
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      setIsFormValid(form.isUsernameValid && form.isPasswordValid);
+    }, 300);
 
-  const validatePassword = () => {
-    const regexPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{7,30})");
-    setIsPasswordValid(regexPassword.test(password));
-  }
-
-  const buttonIsDisabled = !isPasswordValid || !isUsernameValid;
+    return () => {
+      clearTimeout(identifier);
+    };
+  }, [form.isUsernameValid, form.isPasswordValid]);
 
   return (
     <div className={classes.register}>
-        <div className={classes.register__text}>Log In</div>
-        <input
-          type="text"
-          className={`${classes.register__input} ${!isUsernameValid && classes.invalid}`}
-          id="username"
-          onChange={(event) => {
-            setUsername(event.currentTarget.value);
-          }}
-          onBlur={validateUsername}
-        ></input>
-        {!isUsernameValid && <span className={classes.invalid__message}>Username invalid</span>}
-        <input
-          type="password"
-          className={`${classes.register__input} ${!isPasswordValid && classes.invalid}`}
-          id="password"
-          onChange={(event) => {
-            setPassword(event.currentTarget.value);
-          }}
-          onBlur={validatePassword}
-        ></input>
-        {!isPasswordValid && <span className={classes.invalid__message}>Password invalid</span>}
-        <button className={classes.login__button} onClick={login} disabled={buttonIsDisabled}>Log In</button>
-      </div>
+      <div className={classes.register__text}>Log In</div>
+      <Input
+        type="text"
+        id="Username"
+        onChange={usernameChangeHandler}
+        onBlur={validateUsernameHandler}
+        showError={true}
+        isValid={form.isUsernameValid}
+      />
+      <Input
+        type="password"
+        id="Password"
+        onChange={passwordChangeHandler}
+        onBlur={validatePasswordHandler}
+        showError={true}
+        isValid={form.isPasswordValid}
+      />
+      <button
+        className={classes.login__button}
+        onClick={login}
+        disabled={!isFormValid}
+      >
+        Log In
+      </button>
+    </div>
   );
 };
 

@@ -12,14 +12,6 @@
     margin-top: 2%;
 }
 
-.register__input {
-    margin-top: 3%;
-    width: 60%;
-    border: 1px solid #ECE8DD; 
-    border-radius: 5px;
-    padding: 5px;
-}
-
 .login__button {
     margin-top: 3%;
     width: 62%;
@@ -48,15 +40,4 @@
     transition: 0.1s;
     color: #ECE8DD;
     cursor: not-allowed;
-}
-
-.invalid {
-    border-color: red;
-}
-
-.invalid__message {
-    border: none;
-    color: red;
-    text-align: left;
-    width: 60%;
 }

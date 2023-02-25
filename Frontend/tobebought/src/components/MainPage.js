@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import classes from "./MainPage.module.css";
-import Logo from "./Logo";
+import Logo from "./UI/Logo";
 import Register from "./user/Register";
 import LogIn from "./user/LogIn";
 import ListsContainer from "./lists/ListsContainer";
 import TopBar from "./navigation/TopBar";
-
-// [ ] TODO: User panel for changing password and login
 
 const MainPage = () => {
   const [showRegister, setShowRegister] = useState(false);

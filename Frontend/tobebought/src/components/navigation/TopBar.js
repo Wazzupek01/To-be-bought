@@ -15,11 +15,13 @@ const TopBar = (props) => {
       <div className={classes.topbar__hamburger}>
         <span>&#9776;</span>
         <div className={classes.topbar__menu}>
-          {!(props.userName === null) && (
+          {!(props.userName === null) ? (
             <React.Fragment>
               <div onClick={logout}>Log Out</div>
-              {/* account button for account info and settings */}
+              {/* in future account button for account info and settings */}
             </React.Fragment>
+          ) : (
+            <div>Log In to see more options!</div>
           )}
         </div>
       </div>
