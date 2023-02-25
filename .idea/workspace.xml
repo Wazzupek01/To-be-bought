@@ -4,8 +4,59 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bcb83481-e05f-4d66-af50-b55523d3289d" name="Changes" comment="added mappers, and dtos, css-modules in frontend and minor changes in code">
+    <list default="true" id="bcb83481-e05f-4d66-af50-b55523d3289d" name="Changes" comment="Added Input component, and used in LogIn and Register components, modified register component state management, created constants file">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/tobebought/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/ApplicationExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/TobeboughtApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/controllers/ItemController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/controllers/ShoppingListController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/controllers/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/entities/Item.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/entities/ShoppingList.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/entities/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/exceptions/ErrorResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/exceptions/ShoppingListNotOwnedException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/item/ItemDataDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/item/ItemItemDataDTOMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/item/ItemItemDataDTOMapperImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/shoppingList/ShoppingListDTOMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/shoppingList/ShoppingListDTOMapperImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/shoppingList/ShoppingListDataDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/user/UserDataDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/user/UserLoginDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/user/UserRegisterDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/user_mappers/UserUserDataDTOMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/user_mappers/UserUserDataDTOMapperImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/user_mappers/UserUserLoginDTOMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/user_mappers/UserUserLoginDTOMapperImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/user_mappers/UserUserRegisterDTOMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/model/user_mappers/UserUserRegisterDTOMapperImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/repositories/ItemRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/repositories/ShoppingListRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/repositories/UserRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/security/AuthenticationFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/security/CustomAuthenticationManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/security/JWTAuthorizationFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/security/SecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/security/SecurityConstants.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/security/WebConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/services/ItemService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/services/ItemServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/services/ShoppingListService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/services/ShoppingListServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/services/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/services/UserServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/validation/Password.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/validation/PasswordValidator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/validation/UniqueEmail.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/validation/UniqueEmailValidator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/validation/Username.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/classes/com/pedrycz/tobebought/validation/UsernameValidator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/generated-sources/annotations/com/pedrycz/tobebought/model/item/ItemItemDataDTOMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/tobebought/target/generated-sources/annotations/com/pedrycz/tobebought/model/item/ItemItemDataDTOMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/generated-sources/annotations/com/pedrycz/tobebought/model/shoppingList/ShoppingListDTOMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/tobebought/target/generated-sources/annotations/com/pedrycz/tobebought/model/shoppingList/ShoppingListDTOMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/tobebought/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/tobebought/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +74,8 @@
   </component>
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Frontend/tobebought" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -66,13 +118,13 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "TODO_SCOPE": "All Places",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/krzysiek/Projekty/java/TicTacToe",
+    "last_opened_file_path": "/home/krzysiek/Projekty/ToBeBought-SpringBoot-ReactJS/Backend/tobebought",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "MavenSettings",
+    "settings.editor.selected.configurable": "preferences.sourceCode.Java",
     "spring.configuration.checksum": "86c70dae4edb4bc959fafabaf9d7b12a",
     "vue.rearranger.settings.migration": "true"
   },
@@ -166,6 +218,12 @@
       <workItem from="1677069067290" duration="261000" />
       <workItem from="1677069580171" duration="48000" />
       <workItem from="1677070254412" duration="379000" />
+      <workItem from="1677071064091" duration="19000" />
+      <workItem from="1677232448069" duration="598000" />
+      <workItem from="1677236647758" duration="130000" />
+      <workItem from="1677338498639" duration="94000" />
+      <workItem from="1677340791731" duration="285000" />
+      <workItem from="1677360105548" duration="16000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1672328043324</created>
@@ -272,7 +330,35 @@
       <option name="project" value="LOCAL" />
       <updated>1677070417116</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="added mappers, and dtos, css-modules in frontend and minor changes in code">
+      <created>1677071075487</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1677071075487</updated>
+    </task>
+    <task id="LOCAL-00017" summary="code refactor, changed some access modifiers">
+      <created>1677236715719</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1677236715719</updated>
+    </task>
+    <task id="LOCAL-00018" summary="changed state management in login component, moved logo component to UI folder">
+      <created>1677338586355</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1677338586355</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Added Input component, and used in LogIn and Register components, modified register component state management, created constants file">
+      <created>1677340932383</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1677340932383</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,7 +401,10 @@
     <MESSAGE value="solved problem with registration of existing username" />
     <MESSAGE value="Added item data DTO for security, removed problem with maven and cleaned out pom.xml" />
     <MESSAGE value="added mappers, and dtos, css-modules in frontend and minor changes in code" />
-    <option name="LAST_COMMIT_MESSAGE" value="added mappers, and dtos, css-modules in frontend and minor changes in code" />
+    <MESSAGE value="code refactor, changed some access modifiers" />
+    <MESSAGE value="changed state management in login component, moved logo component to UI folder" />
+    <MESSAGE value="Added Input component, and used in LogIn and Register components, modified register component state management, created constants file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Input component, and used in LogIn and Register components, modified register component state management, created constants file" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
