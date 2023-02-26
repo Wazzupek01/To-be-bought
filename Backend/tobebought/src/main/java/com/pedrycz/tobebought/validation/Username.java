@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UsernameValidator.class)
 public @interface Username {
 
-    String message() default "Invalid Password";
+    String message() default "Invalid Username";
     Class<?>[] groups() default{};
     Class<? extends Payload>[] payload() default {};
 }

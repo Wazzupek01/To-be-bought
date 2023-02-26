@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UniqueEmailValidator.class)
 public @interface UniqueEmail {
 
-    String message() default "Invalid Password";
+    String message() default "Invalid Email";
     Class<?>[] groups() default{};
     Class<? extends Payload>[] payload() default {};
 }

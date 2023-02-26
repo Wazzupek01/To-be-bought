@@ -26,11 +26,10 @@ public class UsernameValidator implements ConstraintValidator<Username, String> 
         try {
             unwrapUser(userRepository.findByUsername(s));
         } catch(EntityNotFoundException e){
-            return false;
+            Pattern pattern = Pattern.compile("^[A-Za-z][A-Za-z0-9_]{4,29}$");
+            Matcher matcher = pattern.matcher(s);
+            return matcher.find();
         }
-
-        Pattern pattern = Pattern.compile("^[A-Za-z][A-Za-z0-9_]{4,29}$");
-        Matcher matcher = pattern.matcher(s);
-        return matcher.find();
+        return false;
     }
 }

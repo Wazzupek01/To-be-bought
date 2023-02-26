@@ -13,7 +13,6 @@ import com.pedrycz.tobebought.model.user.mappers.UserUserRegisterDTOMapper;
 import com.pedrycz.tobebought.repositories.UserRepository;
 import com.pedrycz.tobebought.services.interfaces.UserService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -61,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDataDTO saveUser(@Valid UserRegisterDTO user) {
+    public UserDataDTO saveUser(UserRegisterDTO user) {
         User userRegister = registerDTOMapper.userRegisterDTOToUser(user);
         userRegister.setPassword(bCryptPasswordEncoder.encode(userRegister.getPassword()));
         userRepository.save(userRegister);
