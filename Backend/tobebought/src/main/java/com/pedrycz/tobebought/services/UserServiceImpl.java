@@ -86,6 +86,10 @@ public class UserServiceImpl implements UserService {
     public List<ShoppingListDataDTO> getUsersLists(Long id) {
         User user = unwrapUser(userRepository.findById(id));
         List<ShoppingList> list = user.getShoppingLists();
+        if(list == null) {
+            return null;
+        }
+
         List<ShoppingListDataDTO> listDto = new ArrayList<>();
         for(ShoppingList s: list){
             listDto.add(ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(s));

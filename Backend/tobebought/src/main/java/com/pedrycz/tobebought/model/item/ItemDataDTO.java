@@ -3,6 +3,7 @@ package com.pedrycz.tobebought.model.item;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class ItemDataDTO {
 
     private Long id;
@@ -25,4 +27,6 @@ public class ItemDataDTO {
     private String unit;
 
     private boolean checked = false;
+
+
 }

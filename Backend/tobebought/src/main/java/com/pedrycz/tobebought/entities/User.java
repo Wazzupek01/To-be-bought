@@ -11,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,7 +22,9 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
+@EqualsAndHashCode
 @Table(name = "users")
 public class User {
 

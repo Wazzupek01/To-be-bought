@@ -11,7 +11,6 @@ import com.pedrycz.tobebought.repositories.ShoppingListRepository;
 import com.pedrycz.tobebought.repositories.UserRepository;
 import com.pedrycz.tobebought.services.interfaces.ItemService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
@@ -51,7 +49,8 @@ public class ItemServiceImpl implements ItemService {
         if(!user.getShoppingLists().contains(shoppingList))
             throw new ShoppingListNotOwnedException(userId, shoppingListId);
         item.setShoppingList(shoppingList);
-        return mapper.itemToItemDataDTO(itemRepository.save(item));
+        itemRepository.save(item);
+        return mapper.itemToItemDataDTO(item);
     }
 
     @Override
@@ -70,14 +69,16 @@ public class ItemServiceImpl implements ItemService {
         item.setName(name);
         item.setQuantity(quantity);
         item.setUnit(unit);
-        return mapper.itemToItemDataDTO(itemRepository.save(item));
+        itemRepository.save(item);
+        return mapper.itemToItemDataDTO(item);
     }
 
     @Override
     public ItemDataDTO changeItemState(Long id, Long shoppingListId) {
         Item item = unwrapItem(itemRepository.findByIdAndShoppingListId(id, shoppingListId), id);
         item.setChecked(!item.isChecked());
-        return mapper.itemToItemDataDTO(itemRepository.save(item));
+        itemRepository.save(item);
+        return mapper.itemToItemDataDTO(item);
     }
 
     @Override
