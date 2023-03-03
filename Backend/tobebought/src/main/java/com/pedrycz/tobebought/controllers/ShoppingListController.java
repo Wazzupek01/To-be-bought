@@ -1,10 +1,10 @@
 package com.pedrycz.tobebought.controllers;
 
-import com.pedrycz.tobebought.entities.Item;
 import com.pedrycz.tobebought.entities.ShoppingList;
+import com.pedrycz.tobebought.model.item.ItemDataDTO;
 import com.pedrycz.tobebought.model.shoppingList.ShoppingListDataDTO;
-import com.pedrycz.tobebought.services.interfaces.ShoppingListService;
 import com.pedrycz.tobebought.services.UserServiceImpl;
+import com.pedrycz.tobebought.services.interfaces.ShoppingListService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,7 +41,7 @@ public class ShoppingListController {
     }
 
     @GetMapping("/{id}/all")
-    ResponseEntity<List<Item>> getListItems(@PathVariable Long id, @CookieValue("jwt-token") String token) {
+    ResponseEntity<List<ItemDataDTO>> getListItems(@PathVariable Long id, @CookieValue("jwt-token") String token) {
         Long userId = UserServiceImpl.getUserIdFromJWT(token);
         return new ResponseEntity<>(shoppingListService.getListItems(id, userId), HttpStatus.OK);
     }
