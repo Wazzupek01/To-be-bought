@@ -1,4 +1,4 @@
-package com.pedrycz.tobebought;
+package com.pedrycz.tobebought.unit;
 
 import com.pedrycz.tobebought.entities.ShoppingList;
 import com.pedrycz.tobebought.entities.User;
@@ -10,11 +10,11 @@ import com.pedrycz.tobebought.model.user.mappers.UserUserDataDTOMapperImpl;
 import com.pedrycz.tobebought.repositories.UserRepository;
 import com.pedrycz.tobebought.services.UserServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
@@ -28,8 +28,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
+
     @Mock
     private UserRepository userRepository;
 

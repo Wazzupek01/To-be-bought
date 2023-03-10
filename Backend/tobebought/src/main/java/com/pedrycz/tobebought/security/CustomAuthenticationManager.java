@@ -2,6 +2,7 @@ package com.pedrycz.tobebought.security;
 
 import com.pedrycz.tobebought.model.user.UserLoginDTO;
 import com.pedrycz.tobebought.services.interfaces.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,11 +27,14 @@ public class CustomAuthenticationManager implements AuthenticationManager {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         System.out.println(authentication.getName());
-        UserLoginDTO user = userService.loginUser(authentication.getName());
+        try {
+            UserLoginDTO user = userService.loginUser(authentication.getName());
+            if(!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), user.getPassword()))
+                throw new BadCredentialsException("Incorrect Password");
 
-        if(!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), user.getPassword()))
-            throw new BadCredentialsException("Incorrect Password");
-
-        return new UsernamePasswordAuthenticationToken(authentication.getName(), user.getPassword());
+            return new UsernamePasswordAuthenticationToken(authentication.getName(), user.getPassword());
+        } catch(EntityNotFoundException e) {
+            throw new BadCredentialsException("Username doesn't exist");
+        }
     }
 }

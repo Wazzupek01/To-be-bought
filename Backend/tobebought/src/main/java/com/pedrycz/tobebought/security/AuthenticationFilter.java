@@ -3,12 +3,13 @@ package com.pedrycz.tobebought.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pedrycz.tobebought.entities.User;
+import com.pedrycz.tobebought.model.user.UserLoginDTO;
 import com.pedrycz.tobebought.services.interfaces.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,8 +29,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
         try {
-            User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
-            System.out.println(user.getUsername() + user.getPassword());
+            @Valid
+            UserLoginDTO user = new ObjectMapper().readValue(request.getInputStream(), UserLoginDTO.class);
             Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
             return authenticationManager.authenticate(authentication);
         } catch(IOException e){

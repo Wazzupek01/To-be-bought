@@ -5,7 +5,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-03-03T11:59:05+0100",
+    date = "2023-03-09T13:16:54+0100",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 19.0.2 (Eclipse Adoptium)"
 )
 public class ItemItemDataDTOMapperImpl implements ItemItemDataDTOMapper {
