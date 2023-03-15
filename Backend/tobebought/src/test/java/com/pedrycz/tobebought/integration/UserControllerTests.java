@@ -114,13 +114,13 @@ class UserControllerTests {
 	@Test
 	public void updateUserTest() throws Exception{
 		Cookie jwtTokenCookie = getJWT();
-		String object = objectMapper.writeValueAsString(new UserRegisterDTO("User1", "Password@2137", "wp@wp.pl"));
+		String object = objectMapper.writeValueAsString(new UserRegisterDTO("User1245", "Password@2137", "wp59@wp.pl"));
 
 		RequestBuilder request = MockMvcRequestBuilders.put("/user/").cookie(jwtTokenCookie)
 				.content(object).contentType(MediaType.APPLICATION_JSON);
 
 		mockMvc.perform(request).andExpect(status().isOk())
-				.andExpect(jsonPath("$.username").value("User1"));
+				.andExpect(jsonPath("$.username").value("User1245"));
 	}
 
 	private Cookie getJWT() throws Exception  {

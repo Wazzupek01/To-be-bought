@@ -63,7 +63,7 @@ public class UserLoginTests {
                 .andExpect(status().isUnauthorized()).andExpect(cookie().doesNotExist("jwt-token"));
     }
 
-    @Test()
+    @Test
     public void loginIneligiblePasswordTest() throws Exception {
         String object = objectMapper.writeValueAsString(new UserLoginDTO(1L,"User1", "password"));
 
