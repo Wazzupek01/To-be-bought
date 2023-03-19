@@ -3,6 +3,7 @@ package com.pedrycz.tobebought.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pedrycz.tobebought.model.user.UserLoginDTO;
 import com.pedrycz.tobebought.model.user.UserRegisterDTO;
+import com.pedrycz.tobebought.repositories.ShoppingListRepository;
 import com.pedrycz.tobebought.repositories.UserRepository;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.AfterEach;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.pedrycz.tobebought.TestConstants.TEST_SHOPPING_LISTS;
 import static com.pedrycz.tobebought.TestConstants.TEST_USERS;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -33,6 +35,9 @@ class UserControllerTests {
 	private UserRepository userRepository;
 
 	@Autowired
+	private ShoppingListRepository shoppingListRepository;
+
+	@Autowired
 	private ObjectMapper objectMapper;
 
 	@BeforeEach
@@ -42,7 +47,7 @@ class UserControllerTests {
 
 	@AfterEach
 	void clear() {
-		userRepository.deleteAll(userRepository.findAll());
+		userRepository.deleteAll();
 	}
 
 	@Test
@@ -123,6 +128,22 @@ class UserControllerTests {
 				.andExpect(jsonPath("$.username").value("User1245"));
 	}
 
+	@Test
+	public void getUsersListsTest() throws Exception {
+		shoppingListRepository.saveAll(TEST_SHOPPING_LISTS);
+		Cookie jwtTokenCookie = getJWT();
+
+		RequestBuilder request = MockMvcRequestBuilders.get("/user/lists").cookie(jwtTokenCookie);
+
+		mockMvc.perform(request).andExpect(status().isOk())
+				.andExpect(result -> {
+					String content = result.getResponse().getContentAsString();
+					content.contains("List 3");
+					content.contains("List 1");
+					content.contains("List 2");
+				});
+	}
+
 	private Cookie getJWT() throws Exception  {
 		String object = objectMapper.writeValueAsString(new UserLoginDTO(1L,"User1", "Password!123"));
 
@@ -133,5 +154,4 @@ class UserControllerTests {
 		MvcResult loginResult = mockMvc.perform(request).andExpect(status().is2xxSuccessful()).andExpect(cookie().exists("jwt-token")).andReturn();
 		return loginResult.getResponse().getCookie("jwt-token");
 	}
-
 }

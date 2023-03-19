@@ -1,5 +1,8 @@
-package com.pedrycz.tobebought.security;
+package com.pedrycz.tobebought.config;
 
+import com.pedrycz.tobebought.security.AuthenticationFilter;
+import com.pedrycz.tobebought.security.CustomAuthenticationManager;
+import com.pedrycz.tobebought.security.JWTAuthorizationFilter;
 import com.pedrycz.tobebought.services.interfaces.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

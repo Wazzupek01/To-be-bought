@@ -68,6 +68,6 @@ public class ShoppingListServiceImpl implements ShoppingListService {
 
     public static ShoppingList unwrapShoppingList(Optional<ShoppingList> entity, Long id){
         if(entity.isPresent()) return entity.get();
-        throw new EntityNotFoundException("Shopping list of id = " + id + " doesn't exist");
+        throw new EntityNotFoundException("Shopping list of id = " + id + " doesn't exist, or is not yours!");
     }
 }
