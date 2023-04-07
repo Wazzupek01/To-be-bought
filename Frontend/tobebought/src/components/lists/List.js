@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import classes from "./List.module.css";
 import Item from "./Item";
+import Input from "../UI/Input";
 
 // [ ] TODO: new list field validation
 // [ ] TODO: update field validation
@@ -210,14 +211,11 @@ const List = (props) => {
     <div className={classes.list__container}>
       <div className={classes.list__firstline}>
         {updateList ? (
-          <input
+          <Input
             type="text"
-            className={classes.additem__input}
-            onChange={(event) => {
-              setName(event.currentTarget.value);
-            }}
+            onChange={(event) => {setName(event.currentTarget.value)}}
             value={name}
-          ></input>
+            placeholder="List name" />
         ) : (
           <div>{name}</div>
         )}

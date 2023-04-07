@@ -166,6 +166,7 @@ const Register = (props) => {
         <Input
           type="email"
           id="Email"
+          placeholder="Email"
           onChange={emailChangeHandler}
           onBlur={validateEmailHandler}
           showError={true}
@@ -174,6 +175,7 @@ const Register = (props) => {
         <Input
         type="text"
         id="Username"
+        placeholder="Username"
         onChange={usernameChangeHandler}
         onBlur={validateUsernameHandler}
         showError={true}
@@ -182,6 +184,7 @@ const Register = (props) => {
       <Input
         type="password"
         id="Password"
+        placeholder="Password"
         onChange={passwordChangeHandler}
         onBlur={validatePasswordHandler}
         showError={true}

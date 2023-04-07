@@ -10,7 +10,7 @@ const Item = (props) => {
   const [update, setUpdate] = useState(false);
 
   const deleteItem = async () => {
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Access-Control-Allow-Origin", "*");
     myHeaders.append("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
@@ -19,7 +19,7 @@ const Item = (props) => {
       "Content-Type, Authorization"
     );
 
-    var requestOptions = {
+    let requestOptions = {
       method: "DELETE",
       headers: myHeaders,
       redirect: "follow",
@@ -40,7 +40,7 @@ const Item = (props) => {
       setUpdate(true);
     } else {
       setUpdate(false);
-      var myHeaders = new Headers();
+      let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Access-Control-Allow-Origin", "*");
       myHeaders.append(
@@ -52,13 +52,13 @@ const Item = (props) => {
         "Content-Type, Authorization"
       );
 
-      var raw = JSON.stringify({
+      let raw = JSON.stringify({
         name: name,
         quantity: quantity,
         unit: unit,
       });
 
-      var requestOptions = {
+      let requestOptions = {
         method: "PUT",
         headers: myHeaders,
         body: raw,
@@ -77,7 +77,7 @@ const Item = (props) => {
   };
 
   const checkItem = async () => {
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Access-Control-Allow-Origin", "*");
     myHeaders.append("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
@@ -86,7 +86,7 @@ const Item = (props) => {
       "Content-Type, Authorization"
     );
 
-    var requestOptions = {
+    let requestOptions = {
       method: "PUT",
       headers: myHeaders,
       redirect: "follow",

@@ -122,6 +122,7 @@ const LogIn = (props) => {
       <Input
         type="text"
         id="Username"
+        placeholder="Username"
         onChange={usernameChangeHandler}
         onBlur={validateUsernameHandler}
         showError={true}
@@ -130,6 +131,7 @@ const LogIn = (props) => {
       <Input
         type="password"
         id="Password"
+        placeholder="Password"
         onChange={passwordChangeHandler}
         onBlur={validatePasswordHandler}
         showError={true}
