@@ -1,0 +1,6 @@
+com/pedrycz/tobebought/TestConstants.class
+com/pedrycz/tobebought/unit/ShoppingListServiceTest.class
+com/pedrycz/tobebought/unit/ItemServiceTest.class
+com/pedrycz/tobebought/integration/UserControllerTests.class
+com/pedrycz/tobebought/unit/UserServiceTest.class
+com/pedrycz/tobebought/integration/UserLoginTests.class
