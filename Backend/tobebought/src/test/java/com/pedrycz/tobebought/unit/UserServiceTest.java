@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -52,7 +53,7 @@ public class UserServiceTest {
 
         // When
         when(userRepository.findByUsername(user.getUsername()))
-                .thenReturn(Optional.of(new User(1L, "User1", encoder.encode("Password!123"), "wp@wp.pl", null)));
+                .thenReturn(Optional.of(new User(UUID.fromString("00000000-0000-0000-0000-000000000001"), "User1", encoder.encode("Password!123"), "wp@wp.pl", null)));
         UserLoginDTO result = userService.loginUser(user.getUsername());
 
         // Then
@@ -67,16 +68,16 @@ public class UserServiceTest {
         user.setEmail("wp@wp.pl");
         user.setUsername("User1");
         user.setPassword(encoder.encode("Password!123"));
-        user.setId(69);
+        user.setId(UUID.fromString("00000000-0000-0000-0000-000000000069"));
         UserDataDTO userDataDTO = userDataDTOMapper.userToUserDataDTO(user);
 
         // When
-        when(userRepository.findById(69L)).thenReturn(Optional.of(user));
+        when(userRepository.findById(UUID.fromString("00000000-0000-0000-0000-000000000069"))).thenReturn(Optional.of(user));
         UserDataDTO result = userService.getUser(user.getId());
 
         // Then
         assertEquals(userDataDTO, result);
-        assertThrows(EntityNotFoundException.class, () -> userService.getUser(1L));
+        assertThrows(EntityNotFoundException.class, () -> userService.getUser(UUID.fromString("00000000-0000-0000-0000-000000000001")));
     }
 
     @Test
@@ -86,7 +87,7 @@ public class UserServiceTest {
         user.setEmail("wp@wp.pl");
         user.setUsername("User1");
         user.setPassword(encoder.encode("Password!123"));
-        user.setId(69);
+        user.setId(UUID.fromString("00000000-0000-0000-0000-000000000069"));
         UserDataDTO userDataDTO = userDataDTOMapper.userToUserDataDTO(user);
 
         // When
@@ -106,7 +107,7 @@ public class UserServiceTest {
         newUserInModel.setUsername("User2");
         newUserInModel.setPassword(encoder.encode("Password!123"));
         newUserInModel.setEmail("wp@wp.pl");
-        newUserInModel.setId(1);
+        newUserInModel.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
 
         // When
         UserDataDTO result = userService.saveUser(newUser);
@@ -122,12 +123,11 @@ public class UserServiceTest {
         user.setEmail("wp@wp.pl");
         user.setUsername("User1");
         user.setPassword(encoder.encode("Password!123"));
-        user.setId(69);
-        UserDataDTO userDataDTO = userDataDTOMapper.userToUserDataDTO(user);
+        user.setId(UUID.fromString("00000000-0000-0000-0000-000000000069"));
 
         // When
-        when(userRepository.findById(69L)).thenReturn(Optional.of(user));
-        UserDataDTO result = userService.updateUser(69L, "NewUsername1", "NewPassword!123","new@wp.pl");
+        when(userRepository.findById(UUID.fromString("00000000-0000-0000-0000-000000000069"))).thenReturn(Optional.of(user));
+        UserDataDTO result = userService.updateUser(UUID.fromString("00000000-0000-0000-0000-000000000069"), "NewUsername1", "NewPassword!123","new@wp.pl");
 
         // Then
         assertEquals("NewUsername1", result.getUsername());
@@ -141,7 +141,7 @@ public class UserServiceTest {
         user.setEmail("wp@wp.pl");
         user.setUsername("User1");
         user.setPassword(encoder.encode("Password!123"));
-        user.setId(69);
+        user.setId(UUID.fromString("00000000-0000-0000-0000-000000000069"));
 
         // When
         userService.deleteUser(user.getId());
@@ -154,14 +154,14 @@ public class UserServiceTest {
     public void getUsersListsTest() {
         // Given
         List<ShoppingList> lists = Arrays.asList(new ShoppingList("First List"), new ShoppingList("Second List"));
-        User user1 = new User(1L, "User1", encoder.encode("Password!123"), "wp@wp.pl", lists);
-        User user2 = new User(2L, "User2", encoder.encode("Password!123"), "wp2@wp.pl", null);
+        User user1 = new User(UUID.fromString("00000000-0000-0000-0000-000000000001"), "User1", encoder.encode("Password!123"), "wp@wp.pl", lists);
+        User user2 = new User(UUID.fromString("00000000-0000-0000-0000-000000000002"), "User2", encoder.encode("Password!123"), "wp2@wp.pl", null);
 
         // when
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user1));
-        when(userRepository.findById(2L)).thenReturn(Optional.of(user2));
-        List<ShoppingListDataDTO> result1 = userService.getUsersLists(1L);
-        List<ShoppingListDataDTO> result2 = userService.getUsersLists(2L);
+        when(userRepository.findById(UUID.fromString("00000000-0000-0000-0000-000000000001"))).thenReturn(Optional.of(user1));
+        when(userRepository.findById(UUID.fromString("00000000-0000-0000-0000-000000000002"))).thenReturn(Optional.of(user2));
+        List<ShoppingListDataDTO> result1 = userService.getUsersLists(UUID.fromString("00000000-0000-0000-0000-000000000001"));
+        List<ShoppingListDataDTO> result2 = userService.getUsersLists(UUID.fromString("00000000-0000-0000-0000-000000000002"));
 
         // then
         assertEquals(2, result1.size());

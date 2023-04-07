@@ -1,8 +1,10 @@
 package com.pedrycz.tobebought.exceptions;
 
+import java.util.UUID;
+
 public class ShoppingListNotOwnedException extends RuntimeException{
 
-    public ShoppingListNotOwnedException(Long userId, Long shoppingListId){
-        super("User with id = " + userId + " doesn't own shopping list of id = " + shoppingListId);
+    public ShoppingListNotOwnedException(UUID userId, UUID shoppingListId){
+        super("User with id = " + userId.toString() + " doesn't own shopping list of id = " + shoppingListId.toString());
     }
 }

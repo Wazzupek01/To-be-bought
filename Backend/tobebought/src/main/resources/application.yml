@@ -17,3 +17,8 @@ spring:
     show-sql: true
   main:
     web-application-type: servlet
+
+springdoc:
+  swagger-ui:
+    path: /docs
+  show-login-endpoint: true

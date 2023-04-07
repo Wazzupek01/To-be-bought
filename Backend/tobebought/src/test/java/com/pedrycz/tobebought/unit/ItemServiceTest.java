@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -53,9 +54,9 @@ public class ItemServiceTest {
     public void getItemTest() {
         // Given
         Item item = new Item("cucumber", 1.5F, "kilogram");
-        item.setId(1L);
+        item.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         ShoppingList shoppingList = new ShoppingList("List 1");
-        shoppingList.setId(1L);
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         item.setShoppingList(shoppingList);
 
         // When
@@ -64,22 +65,22 @@ public class ItemServiceTest {
         // Then
         ItemDataDTO result = itemService.getItem(item.getId(), item.getShoppingList().getId());
         assertEquals(itemDataDTOMapper.itemToItemDataDTO(item), result);
-        assertThrows(EntityNotFoundException.class, () -> itemService.getItem(item.getId(), 2L));
-        assertThrows(EntityNotFoundException.class, () -> itemService.getItem(2L, 1L));
+        assertThrows(EntityNotFoundException.class, () -> itemService.getItem(item.getId(), UUID.fromString("00000000-0000-0000-0000-000000000002")));
+        assertThrows(EntityNotFoundException.class, () -> itemService.getItem(UUID.fromString("00000000-0000-0000-0000-000000000002"), UUID.fromString("00000000-0000-0000-0000-000000000002")));
     }
 
     @Test
     public void saveItemTest() {
         // Given
         ShoppingList shoppingList = new ShoppingList("List 1");
-        shoppingList.setId(1L);
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         ShoppingList notOwned = new ShoppingList("List not owned");
-        notOwned.setId(2L);
+        notOwned.setId(UUID.fromString("00000000-0000-0000-0000-000000000002"));
 
-        User user = new User(1L, "User1",
+        User user = new User(UUID.fromString("00000000-0000-0000-0000-000000000001"), "User1",
                 passwdEncoder.encode("Password!123"), "wp@wp.pl", List.of(shoppingList));
         Item item = new Item("cucumber", 2F, "kilogram");
-        item.setId(1L);
+        item.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
 
         // When
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
@@ -90,9 +91,9 @@ public class ItemServiceTest {
         ItemDataDTO result = itemService.saveItem(item, user.getId(), shoppingList.getId());
         assertEquals(itemDataDTOMapper.itemToItemDataDTO(item), result);
 
-        assertThrows(ShoppingListNotOwnedException.class, () -> itemService.saveItem(item, user.getId(), 2L));
-        assertThrows(EntityNotFoundException.class, () -> itemService.saveItem(item, 2L, 1L));
-        assertThrows(EntityNotFoundException.class, () -> itemService.saveItem(item, 1L, 3L));
+        assertThrows(ShoppingListNotOwnedException.class, () -> itemService.saveItem(item, user.getId(), UUID.fromString("00000000-0000-0000-0000-000000000002")));
+        assertThrows(EntityNotFoundException.class, () -> itemService.saveItem(item, UUID.fromString("00000000-0000-0000-0000-000000000002"), UUID.fromString("00000000-0000-0000-0000-000000000001")));
+        assertThrows(EntityNotFoundException.class, () -> itemService.saveItem(item, UUID.fromString("00000000-0000-0000-0000-000000000001"), UUID.fromString("00000000-0000-0000-0000-000000000003")));
 
         verify(itemRepository, times(1)).save(item);
     }
@@ -101,9 +102,9 @@ public class ItemServiceTest {
     public void getItemsTest(){
         // Given
         ShoppingList shoppingList1 = new ShoppingList("List 1");
-        shoppingList1.setId(1L);
+        shoppingList1.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         ShoppingList shoppingList2 = new ShoppingList("List 1");
-        shoppingList2.setId(2L);
+        shoppingList2.setId(UUID.fromString("00000000-0000-0000-0000-000000000002"));
         List<Item> items = List.of(
                 new Item("item", 2F, "kilogram"),
                 new Item("item 2", 1F, "unit"),
@@ -125,19 +126,19 @@ public class ItemServiceTest {
 
         assertEquals(List.of(itemsDTO.get(0), itemsDTO.get(1)), result1);
         assertEquals(List.of(itemsDTO.get(2)), result2);
-        assertEquals(0, itemService.getItems(3L).size());
+        assertEquals(0, itemService.getItems(UUID.fromString("00000000-0000-0000-0000-000000000003")).size());
     }
 
     @Test
     public void updateItemTest(){
         // Given
         ShoppingList shoppingList = new ShoppingList("List 1");
-        shoppingList.setId(1L);
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         Item item = new Item("cucumber", 2F, "kilogram");
-        item.setId(1L);
+        item.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         item.setShoppingList(shoppingList);
         Item updatedItem = new Item("coconut", 1F, "kilogram");
-        updatedItem.setId(1L);
+        updatedItem.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         updatedItem.setShoppingList(shoppingList);
         ItemDataDTO updatedItemDataDTO = itemDataDTOMapper.itemToItemDataDTO(updatedItem);
 
@@ -158,12 +159,12 @@ public class ItemServiceTest {
         assertEquals(updatedItemDataDTO, result);
         assertThrows(EntityNotFoundException.class, () -> itemService.updateItem(
                 item.getId(),
-                2L,
+                UUID.fromString("00000000-0000-0000-0000-000000000002"),
                 "coconut",
                 1F,
                 item.getUnit()));
         assertThrows(EntityNotFoundException.class, () -> itemService.updateItem(
-                2L,
+                UUID.fromString("00000000-0000-0000-0000-000000000002"),
                 item.getShoppingList().getId(),
                 "coconut",
                 1F,
@@ -174,9 +175,9 @@ public class ItemServiceTest {
     public void changeItemStateTest() {
         // Given
         ShoppingList shoppingList = new ShoppingList("List 1");
-        shoppingList.setId(1L);
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         Item item = new Item("cucumber", 2F, "kilogram");
-        item.setId(1L);
+        item.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         item.setShoppingList(shoppingList);
 
         // When
@@ -185,17 +186,17 @@ public class ItemServiceTest {
         // Then
         itemService.changeItemState(item.getId(), item.getShoppingList().getId());
         verify(itemRepository, times(1)).save(item);
-        assertThrows(EntityNotFoundException.class, () -> itemService.changeItemState(item.getId(), 2L));
-        assertThrows(EntityNotFoundException.class, () -> itemService.changeItemState(2L, item.getShoppingList().getId()));
+        assertThrows(EntityNotFoundException.class, () -> itemService.changeItemState(item.getId(), UUID.fromString("00000000-0000-0000-0000-000000000002")));
+        assertThrows(EntityNotFoundException.class, () -> itemService.changeItemState(UUID.fromString("00000000-0000-0000-0000-000000000002"), item.getShoppingList().getId()));
     }
 
     @Test
     public void deleteItemTest() {
         // Given
         ShoppingList shoppingList = new ShoppingList("List 1");
-        shoppingList.setId(1L);
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         Item item = new Item("cucumber", 2F, "kilogram");
-        item.setId(1L);
+        item.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         item.setShoppingList(shoppingList);
 
         // When

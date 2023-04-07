@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -28,13 +29,13 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     }
 
     @Override
-    public ShoppingListDataDTO getShoppingList(Long id, Long userId) {
+    public ShoppingListDataDTO getShoppingList(UUID id, UUID userId) {
         ShoppingList shoppingList = unwrapShoppingList(shoppingListRepository.findShoppingListByIdAndUserId(id, userId), id);
         return ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(shoppingList);
     }
 
     @Override
-    public ShoppingListDataDTO saveShoppingList(ShoppingList shoppingList, Long userId) {
+    public ShoppingListDataDTO saveShoppingList(ShoppingList shoppingList, UUID userId) {
         User user = UserServiceImpl.unwrapUser(userRepository.findById(userId));
         shoppingList.setUser(user);
         shoppingListRepository.save(shoppingList);
@@ -42,31 +43,31 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     }
 
     @Override
-    public List<ShoppingListDataDTO> getShoppingLists(Long userId) {
+    public List<ShoppingListDataDTO> getShoppingLists(UUID userId) {
         List<ShoppingList> list = shoppingListRepository.findShoppingListsByUserId(userId);
         return ShoppingListDTOMapper.listOfShoppingListToDataDTO(list);
     }
 
     @Override
-    public void deleteShoppingList(Long id, Long userId) {
+    public void deleteShoppingList(UUID id, UUID userId) {
         shoppingListRepository.deleteShoppingListByIdAndUserId(id, userId);
     }
 
     @Override
-    public List<ItemDataDTO> getListItems(Long id, Long userId) {
+    public List<ItemDataDTO> getListItems(UUID id, UUID userId) {
         ShoppingList shoppingList = unwrapShoppingList(shoppingListRepository.findShoppingListByIdAndUserId(id, userId), id);
         return ItemItemDataDTOMapper.itemListToItemDtoList(shoppingList.getItems());
     }
 
     @Override
-    public ShoppingListDataDTO updateShoppingList(String name, Long id, Long userId) {
+    public ShoppingListDataDTO updateShoppingList(String name, UUID id, UUID userId) {
         ShoppingList shoppingList = unwrapShoppingList(shoppingListRepository.findShoppingListByIdAndUserId(id, userId), id);
         shoppingList.setName(name);
         shoppingListRepository.save(shoppingList);
         return ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(shoppingList);
     }
 
-    public static ShoppingList unwrapShoppingList(Optional<ShoppingList> entity, Long id){
+    public static ShoppingList unwrapShoppingList(Optional<ShoppingList> entity, UUID id){
         if(entity.isPresent()) return entity.get();
         throw new EntityNotFoundException("Shopping list of id = " + id + " doesn't exist, or is not yours!");
     }

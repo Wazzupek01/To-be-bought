@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -30,8 +31,8 @@ import java.util.List;
 public class ShoppingList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID Id;
 
     @NonNull
     @NotBlank(message = "Shopping list has to be named")

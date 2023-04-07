@@ -1,6 +1,7 @@
 package com.pedrycz.tobebought.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pedrycz.tobebought.entities.ShoppingList;
 import com.pedrycz.tobebought.model.user.UserLoginDTO;
 import com.pedrycz.tobebought.model.user.UserRegisterDTO;
 import com.pedrycz.tobebought.repositories.ShoppingListRepository;
@@ -18,7 +19,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.pedrycz.tobebought.TestConstants.TEST_SHOPPING_LISTS;
+import java.util.UUID;
+
 import static com.pedrycz.tobebought.TestConstants.TEST_USERS;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -130,22 +132,24 @@ class UserControllerTests {
 
 	@Test
 	public void getUsersListsTest() throws Exception {
-		shoppingListRepository.saveAll(TEST_SHOPPING_LISTS);
 		Cookie jwtTokenCookie = getJWT();
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/shoppingList/")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(new ShoppingList("List 112")))
+				.cookie(jwtTokenCookie));
 
 		RequestBuilder request = MockMvcRequestBuilders.get("/user/lists").cookie(jwtTokenCookie);
 
 		mockMvc.perform(request).andExpect(status().isOk())
 				.andExpect(result -> {
 					String content = result.getResponse().getContentAsString();
-					content.contains("List 3");
-					content.contains("List 1");
-					content.contains("List 2");
+					content.contains("List 112");
 				});
 	}
 
 	private Cookie getJWT() throws Exception  {
-		String object = objectMapper.writeValueAsString(new UserLoginDTO(1L,"User1", "Password!123"));
+		String object = objectMapper.writeValueAsString(new UserLoginDTO(UUID.fromString("00000000-0000-0000-0000-000000000001"),"User1", "Password!123"));
 
 		RequestBuilder request = MockMvcRequestBuilders.post("/authenticate")
 				.contentType(MediaType.APPLICATION_JSON)

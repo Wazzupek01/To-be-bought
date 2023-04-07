@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.UUID;
+
 import static com.pedrycz.tobebought.TestConstants.TEST_USERS;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,7 +45,7 @@ public class UserLoginTests {
 
     @Test
     public void loginValidUserCredentialsTest() throws Exception {
-        String object = objectMapper.writeValueAsString(new UserLoginDTO(1L,"User1", "Password!123"));
+        String object = objectMapper.writeValueAsString(new UserLoginDTO(UUID.fromString("00000000-0000-0000-0000-000000000001"),"User1", "Password!123"));
 
         RequestBuilder request = MockMvcRequestBuilders.post("/authenticate")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -54,7 +56,7 @@ public class UserLoginTests {
 
     @Test()
     public void loginInvalidPasswordTest() throws Exception {
-        String object = objectMapper.writeValueAsString(new UserLoginDTO(1L,"User1", "Password#123"));
+        String object = objectMapper.writeValueAsString(new UserLoginDTO(UUID.fromString("00000000-0000-0000-0000-000000000001"),"User1", "Password#123"));
 
         RequestBuilder request = MockMvcRequestBuilders.post("/authenticate")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -65,7 +67,7 @@ public class UserLoginTests {
 
     @Test
     public void loginIneligiblePasswordTest() throws Exception {
-        String object = objectMapper.writeValueAsString(new UserLoginDTO(1L,"User1", "password"));
+        String object = objectMapper.writeValueAsString(new UserLoginDTO(UUID.fromString("00000000-0000-0000-0000-000000000001"),"User1", "password"));
 
         RequestBuilder request = MockMvcRequestBuilders.post("/authenticate")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -77,7 +79,7 @@ public class UserLoginTests {
 
     @Test
     public void loginIneligibleUsernameTest() throws Exception {
-        String object = objectMapper.writeValueAsString(new UserLoginDTO(1L,"usr", "Password!123"));
+        String object = objectMapper.writeValueAsString(new UserLoginDTO(UUID.fromString("00000000-0000-0000-0000-000000000001"),"usr", "Password!123"));
 
         RequestBuilder request = MockMvcRequestBuilders.post("/authenticate")
                 .contentType(MediaType.APPLICATION_JSON)

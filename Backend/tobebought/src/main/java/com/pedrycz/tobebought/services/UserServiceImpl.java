@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDataDTO getUser(Long id) {
+    public UserDataDTO getUser(UUID id) {
         User user = unwrapUser(userRepository.findById(id));
         return dataDTOMapper.userToUserDataDTO(user);
     }
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDataDTO updateUser(Long id, String username, String password, String email) {
+    public UserDataDTO updateUser(UUID id, String username, String password, String email) {
         User user = unwrapUser(userRepository.findById(id));
         user.setUsername(username);
         user.setPassword(bCryptPasswordEncoder.encode(password));
@@ -78,12 +79,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(UUID id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public List<ShoppingListDataDTO> getUsersLists(Long id) {
+    public List<ShoppingListDataDTO> getUsersLists(UUID id) {
         User user = unwrapUser(userRepository.findById(id));
         List<ShoppingList> list = user.getShoppingLists();
         if(list == null) {
@@ -103,10 +104,10 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public static Long getUserIdFromJWT(String token){
+    public static UUID getUserIdFromJWT(String token){
         Base64.Decoder decoder = Base64.getUrlDecoder();
         String userId = new String(decoder.decode(token.split("\\.")[1])).split(",")[2];
-        userId = userId.substring(userId.indexOf(":")+1, userId.indexOf("}"));
-        return Long.parseLong(userId);
+        userId = userId.substring(userId.indexOf(":")+2, userId.indexOf("}")-1);
+        return UUID.fromString(userId);
     }
 }

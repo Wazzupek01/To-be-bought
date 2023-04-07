@@ -18,13 +18,16 @@ public class SecurityConfig {
     private final CustomAuthenticationManager customAuthenticationManager;
     private final UserService userService;
 
+    private static final String[] SWAGGER_PATHS = {"/swagger-ui.html", "/docs", "/swagger-resources/**",
+            "/swagger-resources", "/v3/api-docs/**", "/swagger-ui/**", "/webjars/swagger-ui/**", "/proxy/**"};
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager, userService);
         authenticationFilter.setFilterProcessesUrl("/authenticate");
-        http.cors().and().csrf().disable()//.disable()
+        http.cors().and().csrf().disable()
                 .authorizeHttpRequests()
+                .requestMatchers(SWAGGER_PATHS).permitAll()
                 .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                 .anyRequest().authenticated()
                 .and()

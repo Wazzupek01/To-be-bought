@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -46,10 +47,10 @@ public class ShoppingListServiceTest {
     public void getShoppingListTest(){
         // Given
         ShoppingList shoppingList = new ShoppingList("list 1");
-        shoppingList.setId(1L);
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         shoppingList.setItems(List.of(new Item("cucumber", 1.5F, "kilogram")));
         shoppingList.getItems().get(0).setShoppingList(shoppingList);
-        User user = new User(1L, "User1", encoder.encode("Password!123"), "wp@wp.pl", List.of(shoppingList));
+        User user = new User(UUID.fromString("00000000-0000-0000-0000-000000000001"), "User1", encoder.encode("Password!123"), "wp@wp.pl", List.of(shoppingList));
         shoppingList.setUser(user);
 
         // When
@@ -59,16 +60,16 @@ public class ShoppingListServiceTest {
         // Then
         ShoppingListDataDTO result = shoppingListService.getShoppingList(shoppingList.getId(), shoppingList.getUser().getId());
         assertEquals(ShoppingListDTOMapper.shoppingListToShoppingListDataDTO(shoppingList), result);
-        assertThrows(EntityNotFoundException.class, () -> shoppingListService.getShoppingList(shoppingList.getId(), 2L));
-        assertThrows(EntityNotFoundException.class, () -> shoppingListService.getShoppingList(2L, shoppingList.getUser().getId()));
+        assertThrows(EntityNotFoundException.class, () -> shoppingListService.getShoppingList(shoppingList.getId(), UUID.fromString("00000000-0000-0000-0000-000000000002")));
+        assertThrows(EntityNotFoundException.class, () -> shoppingListService.getShoppingList(UUID.fromString("00000000-0000-0000-0000-000000000002"), shoppingList.getUser().getId()));
     }
 
     @Test
     public void saveShoppingList() {
         // Given
         ShoppingList shoppingList = new ShoppingList("list 1");
-        shoppingList.setId(1L);
-        User user = new User(1L, "User1", encoder.encode("Password!123"), "wp@wp.pl", List.of());
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
+        User user = new User(UUID.fromString("00000000-0000-0000-0000-000000000001"), "User1", encoder.encode("Password!123"), "wp@wp.pl", List.of());
 
         // When
         when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
@@ -83,10 +84,10 @@ public class ShoppingListServiceTest {
     public void getShoppingListsTest() {
         // Given
         ShoppingList shoppingList = new ShoppingList("list 1");
-        shoppingList.setId(1L);
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         ShoppingList shoppingList2 = new ShoppingList("list 2");
-        shoppingList.setId(10L);
-        User user = new User(1L, "User1", encoder.encode("Password!123"), "wp@wp.pl",
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000010"));
+        User user = new User(UUID.fromString("00000000-0000-0000-0000-000000000001"), "User1", encoder.encode("Password!123"), "wp@wp.pl",
                 List.of(shoppingList, shoppingList2));
 
         // When
@@ -102,12 +103,12 @@ public class ShoppingListServiceTest {
     public void deleteShoppingList(){
         // Given
         ShoppingList shoppingList = new ShoppingList("List 1");
-        shoppingList.setId(1L);
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         Item item = new Item("cucumber", 2F, "kilogram");
-        item.setId(1L);
+        item.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         item.setShoppingList(shoppingList);
         shoppingList.setItems(List.of(item));
-        User user = new User(1L, "User1", encoder.encode("Password!123"), "wp@wp.pl",
+        User user = new User(UUID.fromString("00000000-0000-0000-0000-000000000001"), "User1", encoder.encode("Password!123"), "wp@wp.pl",
                 List.of(shoppingList));
 
         // Then
@@ -119,18 +120,18 @@ public class ShoppingListServiceTest {
     public void getListItemsTest(){
         // Given
         ShoppingList shoppingList = new ShoppingList("List 1");
-        shoppingList.setId(1L);
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         Item item = new Item("cucumber", 2F, "kilogram");
-        item.setId(1L);
+        item.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         item.setShoppingList(shoppingList);
         Item item2 = new Item("melon", 1F, "piece");
-        item.setId(23L);
+        item.setId(UUID.fromString("00000000-0000-0000-0000-000000000023"));
         item.setShoppingList(shoppingList);
         Item item3 = new Item("crisps", 1F, "pack");
-        item.setId(100L);
+        item.setId(UUID.fromString("00000000-0000-0000-0000-000000000100"));
         item.setShoppingList(shoppingList);
         shoppingList.setItems(List.of(item, item2, item3));
-        User user = new User(1L, "User1", encoder.encode("Password!123"), "wp@wp.pl",
+        User user = new User(UUID.fromString("00000000-0000-0000-0000-000000000001"), "User1", encoder.encode("Password!123"), "wp@wp.pl",
                 List.of(shoppingList));
 
         // When
@@ -146,12 +147,12 @@ public class ShoppingListServiceTest {
     public void updateShoppingListTest() {
         // Given
         ShoppingList shoppingList = new ShoppingList("List 1");
-        shoppingList.setId(1L);
+        shoppingList.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         Item item = new Item("cucumber", 2F, "kilogram");
-        item.setId(1L);
+        item.setId(UUID.fromString("00000000-0000-0000-0000-000000000001"));
         item.setShoppingList(shoppingList);
         shoppingList.setItems(List.of(item));
-        User user = new User(1L, "User1", encoder.encode("Password!123"), "wp@wp.pl",
+        User user = new User(UUID.fromString("00000000-0000-0000-0000-000000000001"), "User1", encoder.encode("Password!123"), "wp@wp.pl",
                 List.of(shoppingList));
 
         // When

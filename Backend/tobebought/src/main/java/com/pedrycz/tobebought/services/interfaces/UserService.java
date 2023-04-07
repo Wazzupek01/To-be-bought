@@ -6,14 +6,15 @@ import com.pedrycz.tobebought.model.user.UserLoginDTO;
 import com.pedrycz.tobebought.model.user.UserRegisterDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
 
     UserLoginDTO loginUser(String username);
-    UserDataDTO getUser(Long id);
+    UserDataDTO getUser(UUID id);
     UserDataDTO getUser(String username);
     UserDataDTO saveUser(UserRegisterDTO user);
-    UserDataDTO updateUser(Long id, String username, String password, String email);
-    void deleteUser(Long id);
-    List<ShoppingListDataDTO> getUsersLists(Long id);
+    UserDataDTO updateUser(UUID id, String username, String password, String email);
+    void deleteUser(UUID id);
+    List<ShoppingListDataDTO> getUsersLists(UUID id);
 }

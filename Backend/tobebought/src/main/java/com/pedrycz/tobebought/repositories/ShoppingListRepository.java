@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface ShoppingListRepository extends JpaRepository<ShoppingList, Long> {
+public interface ShoppingListRepository extends JpaRepository<ShoppingList, UUID> {
 
-    Optional<ShoppingList> findShoppingListByIdAndUserId(Long id, Long userId);
-    List<ShoppingList> findShoppingListsByUserId(Long userId);
+    Optional<ShoppingList> findShoppingListByIdAndUserId(UUID id, UUID userId);
+    List<ShoppingList> findShoppingListsByUserId(UUID userId);
 
     @Transactional
-    void deleteShoppingListByIdAndUserId(Long id, Long userId);
+    void deleteShoppingListByIdAndUserId(UUID id, UUID userId);
 }

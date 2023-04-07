@@ -54,7 +54,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication authResult) throws IOException {
         String token = JWT.create()
                 .withSubject(authResult.getName())
-                .withClaim("userId", userService.loginUser(authResult.getName()).getId())
+                .withClaim("userId", userService.loginUser(authResult.getName()).getId().toString())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
         response.addCookie(new Cookie("jwt-token", token));

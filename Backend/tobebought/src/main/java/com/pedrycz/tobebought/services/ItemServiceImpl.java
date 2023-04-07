@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -37,12 +38,12 @@ public class ItemServiceImpl implements ItemService {
 
 
     @Override
-    public ItemDataDTO getItem(Long id, Long shoppingListId) {
+    public ItemDataDTO getItem(UUID id, UUID shoppingListId) {
         return mapper.itemToItemDataDTO(unwrapItem(itemRepository.findByIdAndShoppingListId(id, shoppingListId), id));
     }
 
     @Override
-    public ItemDataDTO saveItem(Item item, Long userId, Long shoppingListId) {
+    public ItemDataDTO saveItem(Item item, UUID userId, UUID shoppingListId) {
         User user = UserServiceImpl.unwrapUser(userRepository.findById(userId));
         ShoppingList shoppingList = ShoppingListServiceImpl
                 .unwrapShoppingList(shoppingListRepository.findById(shoppingListId), shoppingListId);
@@ -54,7 +55,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDataDTO> getItems(Long shoppingListId) {
+    public List<ItemDataDTO> getItems(UUID shoppingListId) {
         List<Item> list = itemRepository.findByShoppingListId(shoppingListId);
         List<ItemDataDTO> listDTO = new ArrayList<>();
         for(Item i: list){
@@ -64,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDataDTO updateItem(Long id, Long shoppingListId, String name, Float quantity, String unit) {
+    public ItemDataDTO updateItem(UUID id, UUID shoppingListId, String name, Float quantity, String unit) {
         Item item = unwrapItem(itemRepository.findByIdAndShoppingListId(id, shoppingListId), id);
         item.setName(name);
         item.setQuantity(quantity);
@@ -74,7 +75,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDataDTO changeItemState(Long id, Long shoppingListId) {
+    public ItemDataDTO changeItemState(UUID id, UUID shoppingListId) {
         Item item = unwrapItem(itemRepository.findByIdAndShoppingListId(id, shoppingListId), id);
         item.setChecked(!item.isChecked());
         itemRepository.save(item);
@@ -82,11 +83,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void deleteItem(Long id, Long shoppingListId) {
+    public void deleteItem(UUID id, UUID shoppingListId) {
         itemRepository.deleteByIdAndShoppingListId(id, shoppingListId);
     }
 
-    public static Item unwrapItem(Optional<Item> entity, Long id){
+    public static Item unwrapItem(Optional<Item> entity, UUID id){
         if(entity.isPresent()) return entity.get();
         throw new EntityNotFoundException("Item of id = " + id + " doesn't exist");
     }
