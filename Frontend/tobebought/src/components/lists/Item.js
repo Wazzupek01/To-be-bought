@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import classes from './Item.module.css';
+import React, { useState } from "react";
+import classes from "./Item.module.css";
+import { sendRequest } from "../../helpers/sendRequest";
 
 // [ ] TODO: field validation in update item
 
@@ -10,28 +11,13 @@ const Item = (props) => {
   const [update, setUpdate] = useState(false);
 
   const deleteItem = async () => {
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Access-Control-Allow-Origin", "*");
-    myHeaders.append("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-    myHeaders.append(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    );
-
-    let requestOptions = {
-      method: "DELETE",
-      headers: myHeaders,
-      redirect: "follow",
-      credentials: "include",
-    };
-
-    const response = await fetch(
+    await sendRequest(
+      "DELETE",
+      null,
       "http://localhost:8080/item/" +
         props.id +
         "/shoppingList/" +
-        props.shoppingListId,
-      requestOptions
+        props.shoppingListId
     ).then(props.onDelete(props.id));
   };
 
@@ -40,65 +26,32 @@ const Item = (props) => {
       setUpdate(true);
     } else {
       setUpdate(false);
-      let myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Access-Control-Allow-Origin", "*");
-      myHeaders.append(
-        "Access-Control-Allow-Methods",
-        "POST, GET, PUT, DELETE"
-      );
-      myHeaders.append(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Authorization"
-      );
 
-      let raw = JSON.stringify({
+      const body = JSON.stringify({
         name: name,
         quantity: quantity,
         unit: unit,
       });
 
-      let requestOptions = {
-        method: "PUT",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-        credentials: "include",
-      };
-
-      await fetch(
+      sendRequest(
+        "PUT",
+        body,
         "http://localhost:8080/item/" +
           props.id +
           "/shoppingList/" +
-          props.shoppingListId,
-        requestOptions
+          props.shoppingListId
       );
     }
   };
 
   const checkItem = async () => {
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Access-Control-Allow-Origin", "*");
-    myHeaders.append("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-    myHeaders.append(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    );
-
-    let requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      redirect: "follow",
-      credentials: "include",
-    };
-
-    await fetch(
+    sendRequest(
+      "PUT",
+      null,
       "http://localhost:8080/item/check/" +
         props.id +
         "/shoppingList/" +
-        props.shoppingListId,
-      requestOptions
+        props.shoppingListId
     );
   };
   return (

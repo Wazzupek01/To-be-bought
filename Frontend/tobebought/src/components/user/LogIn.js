@@ -2,6 +2,7 @@ import React, { useReducer, useState, useEffect } from "react";
 import classes from "./LogIn.module.css";
 import Input from "../UI/Input";
 import { regexPassword, regexUsername } from "../../helpers/constants";
+import { sendRequest } from "../../helpers/sendRequest";
 
 const formReducer = (state, action) => {
   if (action.type === "USERNAME_INPUT") {
@@ -75,35 +76,20 @@ const LogIn = (props) => {
   };
 
   const login = async () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Access-Control-Allow-Origin", "*");
-    myHeaders.append("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-    myHeaders.append(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    );
-
-    var raw = JSON.stringify({
+    const body = JSON.stringify({
       password: form.password,
       username: form.username,
     });
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-      credentials: "include",
-    };
-
-    fetch("http://localhost:8080/authenticate", requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        sessionStorage.setItem("userName", result);
-        props.onLogin();
-      })
-      .catch((error) => console.log("error", error));
+    let result = await sendRequest(
+      "POST",
+      body,
+      "http://localhost:8080/authenticate"
+    );
+    
+    console.log(result);
+    sessionStorage.setItem("userName", result);
+    props.onLogin();
   };
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import classes from "./List.module.css";
 import Item from "./Item";
 import Input from "../UI/Input";
+import { sendRequest } from "../../helpers/sendRequest";
 
 // [ ] TODO: new list field validation
 // [ ] TODO: update field validation
@@ -30,50 +31,18 @@ const List = (props) => {
   };
 
   const fetchItems = async () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Access-Control-Allow-Origin", "*");
-    myHeaders.append("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-    myHeaders.append(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
+    return await sendRequest(
+      "GET",
+      null,
+      "http://localhost:8080/shoppingList/" + id + "/all"
     );
-
-    var requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-      credentials: "include",
-    };
-
-    const response = await fetch(
-      "http://localhost:8080/shoppingList/" + id + "/all",
-      requestOptions
-    );
-    const result = await response.text();
-    return result;
   };
 
   const deleteList = async () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Access-Control-Allow-Origin", "*");
-    myHeaders.append("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-    myHeaders.append(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    );
-
-    var requestOptions = {
-      method: "DELETE",
-      headers: myHeaders,
-      redirect: "follow",
-      credentials: "include",
-    };
-
-    const response = await fetch(
-      "http://localhost:8080/shoppingList/" + id,
-      requestOptions
+    await sendRequest(
+      "DELETE",
+      null,
+      "http://localhost:8080/shoppingList/" + id
     );
     props.onUpdate();
   };
@@ -112,80 +81,43 @@ const List = (props) => {
       setUpdateList(true);
     } else {
       setUpdateList(false);
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Access-Control-Allow-Origin", "*");
-      myHeaders.append(
-        "Access-Control-Allow-Methods",
-        "POST, GET, PUT, DELETE"
+      return await sendRequest(
+        "PUT",
+        JSON.stringify({ name: name }),
+        "http://localhost:8080/shoppingList/" + id
       );
-      myHeaders.append(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Authorization"
-      );
-
-      var requestOptions = {
-        method: "PUT",
-        headers: myHeaders,
-        body: JSON.stringify({ name: name }),
-        redirect: "follow",
-        credentials: "include",
-      };
-
-      const response = await fetch(
-        "http://localhost:8080/shoppingList/" + id,
-        requestOptions
-      );
-      return response;
     }
   };
 
-  const addItem = () => {
+  const addItem = async () => {
     if (showAddItem === false) {
       setShowAddItem(true);
     } else {
       setShowAddItem(false);
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Access-Control-Allow-Origin", "*");
-      myHeaders.append(
-        "Access-Control-Allow-Methods",
-        "POST, GET, PUT, DELETE"
-      );
-      myHeaders.append(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Authorization"
-      );
 
-      var raw = JSON.stringify({
+      const body = JSON.stringify({
         name: newItemName,
         quantity: newItemQuantity,
         unit: newItemUnit,
       });
 
-      var requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-        credentials: "include",
-      };
-
-      fetch("http://localhost:8080/item/shoppingList/" + id, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          setItems([
-            ...items,
-            new item(
-              result.id,
-              result.name,
-              result.quantity,
-              result.unit,
-              result.checked
-            ),
-          ]);
-        })
-        .catch((error) => console.log("error", error));
+      let result = await sendRequest(
+        "POST",
+        body,
+        "http://localhost:8080/item/shoppingList/" + id
+      );
+      result = JSON.parse(result);
+      setItems([
+        ...items,
+        new item(
+          result.id,
+          result.name,
+          result.quantity,
+          result.unit,
+          result.checked
+        )
+      ]);
+      console.log(items);
     }
   };
 
@@ -213,9 +145,12 @@ const List = (props) => {
         {updateList ? (
           <Input
             type="text"
-            onChange={(event) => {setName(event.currentTarget.value)}}
+            onChange={(event) => {
+              setName(event.currentTarget.value);
+            }}
             value={name}
-            placeholder="List name" />
+            placeholder="List name"
+          />
         ) : (
           <div>{name}</div>
         )}

@@ -16,7 +16,6 @@ const MainPage = () => {
     if (userName === "Username doesn't exist") setUserName(null);
     if (userName === null) setIsLoggedIn(false);
     else setIsLoggedIn(true);
-    console.log(userName);
   }, [userName]);
 
   const handleOnLogin = () => {

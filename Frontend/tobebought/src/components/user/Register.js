@@ -2,6 +2,7 @@ import React, { useReducer, useState, useEffect } from 'react';
 import classes from "./LogIn.module.css";
 import { regexUsername, regexPassword, regexEmail } from '../../helpers/constants';
 import Input from '../UI/Input';
+import { sendRequest } from '../../helpers/sendRequest';
 
 const formReducer = (state, action) => {
   if (action.type === "USERNAME_INPUT") {
@@ -119,35 +120,18 @@ const Register = (props) => {
   };
 
 
-  const register = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Access-Control-Allow-Origin", "*");
-    myHeaders.append("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-    myHeaders.append(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    );
+  const register = async () => {
 
-    var raw = JSON.stringify({
+    const body = JSON.stringify({
       email: form.email,
       password: form.password,
       username: form.username
     });
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-      credentials: "include",
-    };
 
-    fetch("http://localhost:8080/user/register", requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-      props.onRegister();
+    const result = await sendRequest("POST", body, "http://localhost:8080/user/register");
+    console.log(result);
+    props.onRegister();
   };
 
   useEffect(() => {

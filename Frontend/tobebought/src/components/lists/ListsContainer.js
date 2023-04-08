@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import classes from "./ListsContainer.module.css";
 import List from "./List";
-import Input from "../UI/Input";
+import { sendRequest } from '../../helpers/sendRequest';
 
 const list = class list {
     constructor(id, name) {
@@ -15,60 +15,16 @@ const ListsContainer = (props) => {
     const [newListName, setNewListName] = useState(null);
     const [isNewListValid, setIsNewListValid] = useState(null);
 
-    const addList = () => {
+    const addList = async () => {
         if (isNewListValid) {
-            const myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-            myHeaders.append("Access-Control-Allow-Origin", "*");
-            myHeaders.append(
-                "Access-Control-Allow-Methods",
-                "POST, GET, PUT, DELETE"
-            );
-            myHeaders.append(
-                "Access-Control-Allow-Headers",
-                "Content-Type, Authorization"
-            );
-
-            const raw = JSON.stringify({name: newListName});
-
-            const requestOptions = {
-                method: "POST",
-                headers: myHeaders,
-                body: raw,
-                redirect: "follow",
-                credentials: "include",
-            };
-
-            fetch("http://localhost:8080/shoppingList/", requestOptions)
-                .then((response) => response.json())
-                .then((result) => {
-                    setLists([...lists, new list(result.id, result.name)]);
-                })
-                .catch((error) => console.log("error", error));
+            const body = JSON.stringify({name: newListName});
+            const result = await sendRequest("POST", body, "http://localhost:8080/shoppingList/"); 
+            setLists([...lists, new list(result.id, result.name)]);
         }
     };
 
     const getLists = async () => {
-        let myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Access-Control-Allow-Origin", "*");
-        myHeaders.append("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
-        myHeaders.append(
-            "Access-Control-Allow-Headers",
-            "Content-Type, Authorization"
-        );
-
-
-        let requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow",
-            credentials: "include",
-        };
-
-        const response = await fetch("http://localhost:8080/user/lists", requestOptions);
-        const result = await response.text();
-        return result;
+        return await sendRequest("GET", null, "http://localhost:8080/user/lists");
     }
 
     const update = () => {
