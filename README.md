@@ -38,7 +38,7 @@ in token.
 ![afterLogin](./screenshots/main.png)
 
 By clicking on `+` button user is able to see all elements inside shopping list.
-`x` button sends delete request to backend for list, as well as for item. `&#8634;` 
+`x` button sends delete request to backend for list, as well as for item. &#8634; 
 opens edit form, when clicked again, changed data is being sent do backend to update record in database.
 
 ![edit](./screenshots/edit.png)
