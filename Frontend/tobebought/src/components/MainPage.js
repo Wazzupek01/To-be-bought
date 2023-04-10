@@ -13,7 +13,7 @@ const MainPage = () => {
   const [showAccount, setShowAccount] = useState(false);
 
   useEffect(() => {
-    if (userName === "Username doesn't exist") setUserName(null);
+    if (userName === "Username doesn't exist" || userName === "undefined") setUserName(null);
     if (userName === null) setIsLoggedIn(false);
     else setIsLoggedIn(true);
   }, [userName]);

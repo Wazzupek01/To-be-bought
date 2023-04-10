@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import classes from "./ListsContainer.module.css";
 import List from "./List";
 import { sendRequest } from '../../helpers/sendRequest';
+import Input from "../UI/Input";
 
 const list = class list {
     constructor(id, name) {
@@ -13,12 +14,12 @@ const list = class list {
 const ListsContainer = (props) => {
     const [lists, setLists] = useState([]);
     const [newListName, setNewListName] = useState(null);
-    const [isNewListValid, setIsNewListValid] = useState(null);
+    const [isNewListValid, setIsNewListValid] = useState("");
 
     const addList = async () => {
         if (isNewListValid) {
             const body = JSON.stringify({name: newListName});
-            const result = await sendRequest("POST", body, "http://localhost:8080/shoppingList/"); 
+            const result = JSON.parse(await sendRequest("POST", body, "http://localhost:8080/shoppingList/")); 
             setLists([...lists, new list(result.id, result.name)]);
         }
     };
@@ -40,7 +41,7 @@ const ListsContainer = (props) => {
 
     useEffect(() => {
         update();
-    });
+    }, []);
 
     const validateNewList = () => {
         if (newListName == null) {
@@ -57,10 +58,13 @@ const ListsContainer = (props) => {
 
     return (<div className={classes.lists__container}>
         <div className={classes.lists__addlist}>
-            <input className={`${classes.lists__input} ${!isNewListValid && classes.invalid}`} type="text"
+            <Input type="text"
                    onChange={(event) => {
                        setNewListName(event.currentTarget.value);
-                   }} onBlur={validateNewList}></input>
+                   }} 
+                   onBlur={validateNewList}
+                   placeholder="New list"
+                   isValid={isNewListValid}></Input>
             <button className={classes.lists__button} onClick={addList} disabled={!isNewListValid}>Add</button>
         </div>
 
