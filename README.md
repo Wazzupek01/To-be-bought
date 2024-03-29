@@ -1,4 +1,4 @@
-# ToBeBought-SpringBoot-ReactJS
+# ToBeBought
 Simple app for storing users shopping lists, allowing to register and login with JWT authentication. Application gives access to store users' lists and items "to be bought" from those lists.
 User can also modify existing lists and contained items by updating their data as well as deleting them completely from database.
 
